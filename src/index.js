@@ -1,17 +1,34 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = 8080;
 
-app.use(cors());
-app.use(bodyParser.json());
+// Lisa JSON andmete töötlemiseks
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Tere tulemast piletimüügi rakendusse!');
+// Teeninda staatilisi faile
+app.use(express.static('frontend/index.html'));
+
+// Ajutine andmestruktuur piletite hoidmiseks
+let tickets = [];
+
+// Piletite loetlemine
+app.get('/tickets', (req, res) => {
+  res.json(tickets);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server töötab porti ${PORT} peal.`);
+// Pileti lisamine
+app.post('/tickets', (req, res) => {
+  const ticket = req.body;
+  tickets.push(ticket);
+  res.status(201).json(ticket);
+});
+
+app.delete('/tickets/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  tickets = tickets.filter((ticket, index) => index !== id);
+  res.status(204).send();
+});
+
+app.listen(port, () => {
+  console.log(`Api on saadaval aadressil: http://localhost:${port}`);
 });

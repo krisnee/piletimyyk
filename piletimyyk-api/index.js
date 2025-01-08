@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express'); // Ainult üks kord
 const cors = require('cors'); // CORS moodul
 const bodyParser = require('body-parser'); // Lisa see rida
-const port = process.env.PORT || 3001; // Kasuta keskkonnamuutujat või vaikimisi 3001
+const port = process.env.PORT || 8080; // Kasuta keskkonnamuutujat või vaikimisi 3001
 const host = 'localhost'; // Host
 
 const app = express(); // Rakenduse loomine

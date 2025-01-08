@@ -1,52 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piletimüük</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piletimüük</title>
 </head>
 <body>
-  <h1>Piletimüük</h1>
-  <ul id="ticket-list"></ul>
-  <form id="ticket-form">
-    <input type="text" id="ticket-name" placeholder="Piletinimi" required>
-    <input type="number" id="ticket-price" placeholder="Hind" required>
-    <button type="submit">Lisa Pilet</button>
-  </form>
-  <script>
-    const form = document.getElementById('ticket-form');
-    const list = document.getElementById('ticket-list');
+    <h1>Piletimüük</h1>
+    <ul id="event-list"></ul>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('ticket-name').value;
-      const price = document.getElementById('ticket-price').value;
+    <script>
+        async function loadEvents() {
+            const response = await fetch('/events');
+            const events = await response.json();
+            const list = document.getElementById('event-list');
+            events.forEach(event => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${event.title} - ${event.description}`;
+                list.appendChild(listItem);
+            });
+        }
 
-      const response = await fetch('/tickets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, price })
-      });
-
-      if (response.ok) {
-        const ticket = await response.json();
-        const listItem = document.createElement('li');
-        listItem.textContent = `${ticket.name} - $${ticket.price}`;
-        list.appendChild(listItem);
-      }
-    });
-
-    async function loadTickets() {
-      const response = await fetch('/tickets');
-      const tickets = await response.json();
-      tickets.forEach((ticket, index) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${ticket.name} - $${ticket.price}`;
-        list.appendChild(listItem);
-      });
-    }
-
-    loadTickets();
-  </script>
+        loadEvents();
+    </script>
 </body>
 </html>

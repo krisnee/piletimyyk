@@ -1,10 +1,12 @@
 {
-  "name": "api-project-manager",
+  "name": "apiprojekt",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "",
+    "start": "concurrently \"cd piletimyyk-api && nodemon .\" \"cd frontend\\frontend && npm run dev\""
   },
   "keywords": [],
   "author": "",

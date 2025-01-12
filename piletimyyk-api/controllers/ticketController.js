@@ -68,7 +68,7 @@ exports.deleteById = async (req, res) => {
 };
 
 const getTicket = async (req, res) => {
-    const idNumber = parseInt(req.params.id); // Muuda 'GameID' 'id' -ks, et see vastaks marsruudile
+    const idNumber = parseInt(req.params.id);
     if (isNaN(idNumber)) {
         res.status(400).send({ error: `Vale pileti ID ${req.params.id}` });
         return null;

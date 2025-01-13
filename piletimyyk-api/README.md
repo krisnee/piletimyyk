@@ -83,4 +83,5 @@ Piletimüügi rakendus, mis võimaldab kasutajatel osta ja hallata pileteid.
 - [API dokumentatsioon](https://studio.apicur.io/apis/113095/)
 - [Trello projekt](https://trello.com/b/436EYyWL/)
 
-![image](https://github.com/user-attachments/assets/178330c5-f077-4b61-aca1-3dcbdf5c2ed1)
+![image](https://github.com/user-attachments/assets/8366eaa2-5b77-49bf-8df3-3c50379f741c)
+

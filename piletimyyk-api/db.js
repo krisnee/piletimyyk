@@ -1,15 +1,22 @@
+require('dotenv').config();
+
 const { Sequelize, DataTypes } = require('sequelize');
 
 // Andmebaasi ühenduse loomine
 const sequelize = new Sequelize(
-    process.env.DB_DATANAME, 
-    process.env.DB_USERNAME, 
-    process.env.DB_PASSWORD, 
-    {
-        host: process.env.DB_HOSTNAME,
-        dialect: 'mariadb',
-        logging: console.log, // Muuda true, kui soovid logida SQL päringud
-    }
+  process.env.DB_DATANAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+      host: process.env.DB_HOSTNAME,
+      dialect: 'mariadb',
+      logging: console.log, // Muuda true, kui soovid logida SQL päringud
+      dialectOptions: {
+          ssl: {
+              rejectUnauthorized: false, // Kui te ei usalda sertifikaati
+          }
+      }
+  }
 );
 
 // Ühenduse testimine

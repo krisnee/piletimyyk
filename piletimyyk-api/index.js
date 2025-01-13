@@ -56,11 +56,20 @@ app.use(cors());
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use(express.json());
 
+app.get('/event', (req, res) => {
+    const events = [
+        { title: 'Sündmus 1', description: 'Kirjeldus 1' },
+        { title: 'Sündmus 2', description: 'Kirjeldus 2' }
+    ];
+    res.json(events); // Tagastab JSON-andmed
+});
+
+
 app.get("/", (req, res) => {
     res.send(`Server töötab. Dokumentatsioon on kättesaadav siit: <a href="http://${host}:${port}/docs">/docs</a>`);
 });
 
-require("./routes/gameRoutes")(app);
+require("./routes/ticketRoutes")(app);
 
 app.get("/users", (req, res) => { res.status(200).send(users) });
 

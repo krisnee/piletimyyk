@@ -1,4 +1,3 @@
-// piletimyyk-api/controllers/TicketsController.js
 const { db } = require("../db");
 const Utils = require("./utils"); // Kui sul on utils fail, muidu saad selle osa eemaldada
 

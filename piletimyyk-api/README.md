@@ -22,7 +22,6 @@ Piletimüügi rakendus, mis võimaldab kasutajatel osta ja hallata pileteid.
   - `last_name` (varchar(50))
   - `email` (varchar(50))
   - `password_hash` (string)
-  - `role` (enum: organizer, user)
 
 - **Event**
   - `id` (PK)
@@ -43,7 +42,7 @@ Piletimüügi rakendus, mis võimaldab kasutajatel osta ja hallata pileteid.
   - `purchase_date` (timestamp)
 
 ## Kuidas andmebaasi seadistada
-1. Loo MySQL andmebaas nimega `piletimyyk`.
+1. Loo MySQL andmebaas nimega `d129002_piletimyykuus`.
 2. Käivita järgmised SQL käsud, et luua vajalikud tabelid:
    ```sql
    CREATE TABLE User (
@@ -51,8 +50,7 @@ Piletimüügi rakendus, mis võimaldab kasutajatel osta ja hallata pileteid.
        first_name VARCHAR(50),
        last_name VARCHAR(50),
        email VARCHAR(50),
-       password_hash VARCHAR(255),
-       role ENUM('organizer', 'user')
+       password_hash VARCHAR(255)
    );
 
    CREATE TABLE Event (

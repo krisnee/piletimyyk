@@ -1,243 +1,67 @@
 {
-  "openapi": "3.0.2",
-  "info": {
-      "title": "Piletimüügi API",
-      "version": "1.0.0",
-      "description": "API pileti haldamiseks"
-  },
-  "paths": {
-      "/tickets": {
-          "get": {
-              "tags": [
-                  "tickets"
-              ],
-              "responses": {
-                  "200": {
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "type": "object",
-                                      "properties": {
-                                          "TicketID": {
-                                              "type": "integer"
-                                          },
-                                          "EventName": {
-                                              "type": "string"
-                                          },
-                                          "UserID": {
-                                              "type": "integer"
-                                          },
-                                          "PurchaseDate": {
-                                              "type": "string",
-                                              "format": "date-time"
-                                          },
-                                          "Price": {
-                                              "type": "number"
-                                          },
-                                          "QRCode": {
-                                              "type": "string"
-                                          }
-                                      }
-                                  }
-                              },
-                              "examples": {
-                                  "List of tickets": {
-                                      "value": [
-                                          {
-                                              "TicketID": 1,
-                                              "EventName": "Kontsert",
-                                              "UserID": 123,
-                                              "PurchaseDate": "2023-10-01T12:00:00Z",
-                                              "Price": 25.00,
-                                              "QRCode": "example-qrcode-1"
-                                          },
-                                          {
-                                              "TicketID": 2,
-                                              "EventName": "Teater",
-                                              "UserID": 124,
-                                              "PurchaseDate": "2023-10-02T12:00:00Z",
-                                              "Price": 30.00,
-                                              "QRCode": "example-qrcode-2"
-                                          }
-                                      ]
-                                  }
-                              }
-                          }
-                      },
-                      "description": "Tagastab loendi kõikidest piletitest"
-                  }
-              },
-              "summary": "Saada loend kõikidest piletitest",
-              "description": "Tagastab loendi kõikidest piletitest API-sse."
-          },
-          "post": {
-              "tags": [
-                  "tickets"
-              ],
-              "responses": {
-                  "201": {
-                      "description": "Pilet on loodud",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "object",
-                                  "properties": {
-                                      "TicketID": {
-                                          "type": "integer"
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Üks või mitu parameetrit on puudu"
-                  }
-              },
-              "summary": "Loo uus pilet",
-              "description": "Loo uus pilet, edastades vajalikud andmed."
-          }
-      },
-      "/tickets/{id}": {
-          "get": {
-              "tags": [
-                  "tickets"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "description": "Pileti ID",
-                      "schema": {
-                          "type": "integer"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Tagastab pileti andmed",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "object",
-                                  "properties": {
-                                      "TicketID": {
-                                          "type": "integer"
-                                      },
-                                      "EventName": {
-                                          "type": "string"
-                                      },
-                                      "UserID": {
-                                          "type": "integer"
-                                      },
-                                      "PurchaseDate": {
-                                          "type": "string",
-                                          "format": "date-time"
-                                      },
-                                      "Price": {
-                                          "type": "number"
-                                      },
-                                      "QRCode": {
-                                          "type": "string"
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "404": {
-                      "description": "Piletit ei leitud"
-                  }
-              },
-              "summary": "Saada pileti andmed ID järgi",
-              "description": "Tagastab pileti andmed, kasutades pileti ID-d."
-          },
-          "put": {
-              "tags": [
-                  "tickets"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "description": "Pileti ID",
-                      "schema": {
-                          "type": "integer"
-                      }
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "Pilet on uuendatud",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "type": "object",
-                                  "properties": {
-                                      "TicketID": {
-                                          "type": "integer"
-                                      },
-                                      "EventName": {
-                                          "type": "string"
-                                      },
-                                      "UserID": {
-                                          "type": "integer"
-                                      },
-                                      "PurchaseDate": {
-                                          "type": "string",
-                                          "format": "date-time"
-                                      },
-                                      "Price": {
-                                          "type": "number"
-                                      },
-                                      "QRCode": {
-                                          "type": "string"
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  "400": {
-                      "description": "Üks või mitu parameetrit on puudu"
-                  },
-                  "404": {
-                      "description": "Piletit ei leitud"
-                  }
-              },
-              "summary": "Uuenda pileti andmed",
-              "description": "Uuendab olemasoleva pileti andmeid, kasutades pileti ID-d."
-          },
-          "delete": {
-              "tags": [
-                  "tickets"
-              ],
-              "parameters": [
-                  {
-                      "name": "id",
-                      "in": "path",
-                      "required": true,
-                      "description": "Pileti ID",
-                      "schema": {
-                          "type": "integer"
-                      }
-                  }
-              ],
-              "responses": {
-                  "204": {
-                      "description": "Pilet on kustutatud"
-                  },
-                  "404": {
-                      "description": "Piletit ei leitud"
-                  }
-              },
-              "summary": "Kustuta pilet",
-              "description": "Kustutab pileti, kasutades pileti ID-d."
-          }
-      }
-  }
+    "openapi": "3.0.2",
+    "info": {
+        "title": "piletimyyk-api",
+        "version": "1.0.0",
+        "description": "### This is a Swagger UI for our Piletimüügi API",
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "paths": {
+        "/events": {
+            "get": {
+                "tags": [
+                    "events"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "EventID": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "EventName": {
+                                                "type": "string",
+                                                "example": "Tallinn Music Night"
+                                            },
+                                            "Description": {
+                                                "type": "string",
+                                                "example": "'Eriline muusikaõhtu koos kohalike ja rahvusvaheliste artistidega."
+                                            },
+                                            "Location": {
+                                                "type": "string",
+                                                "example": "Alexela Kontserdimaja, Tallinn"
+                                            },
+                                            "EventDate": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-02-20"
+                                            },
+                                            "StartTime": {
+                                                "type": "time",
+                                                "format": "time",
+                                                "example": "19:00"
+                                            }
+    
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns a list of events"
+                    }
+                },
+                "summary": "Get a list of all events",
+                "description": "Returns a list of all events"
+            }
+        }
+    }
 }

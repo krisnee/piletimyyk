@@ -1,157 +1,105 @@
-openapi: 3.0.2
+openapi: 3.0.0
 info:
-    title: Piletimüügi API
-    version: 1.0.0
-    description: API pileti haldamiseks
+  title: Piletimüügi API
+  version: 1.0.0
+  description: API ürituste ja piletite haldamiseks
+
 paths:
-    /tickets:
-        get:
-            tags:
-                - tickets
-            responses:
-                '200':
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        TicketID:
-                                            type: integer
-                                        EventName:
-                                            type: string
-                                        UserID:
-                                            type: integer
-                                        PurchaseDate:
-                                            type: string
-                                            format: date-time
-                                        Price:
-                                            type: number
-                                        QRCode:
-                                            type: string
-                            examples:
-                                List of tickets:
-                                    value:
-                                        - TicketID: 1
-                                          EventName: "Kontsert"
-                                          UserID: 123
-                                          PurchaseDate: "2023-10-01T12:00:00Z"
-                                          Price: 25.00
-                                          QRCode: "example-qrcode-1"
-                                        - TicketID: 2
-                                          EventName: "Teater"
-                                          UserID: 124
-                                          PurchaseDate: "2023-10-02T12:00:00Z"
-                                          Price: 30.00
-                                          QRCode: "example-qrcode-2"
-                    description: Tagastab loendi kõikidest piletitest
-            summary: Saada loend kõikidest piletitest
-            description: Tagastab loendi kõikidest piletitest API-sse.
-        post:
-            requestBody:
-                description: Pileti andmed, mida kasutaja soovib lisada
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Ticket'
-                        examples:
-                            Example of a ticket:
-                                value:
-                                    EventName: "Kontsert"
-                                    UserID: 123
-                                    Price: 25.00
-                                    QRCode: "example-qrcode-1"
-                required: true
-            tags:
-                - tickets
-            responses:
-                '201':
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    TicketID:
-                                        type: integer
-                            examples:
-                                Ticket that is added:
-                                    value:
-                                        TicketID: 3
-                                        EventName: "Kontsert"
-                                        UserID: 123
-                                        PurchaseDate: "2023-10-01T12:00:00Z"
-                                        Price: 25.00
-                                        QRCode: "example-qrcode-1"
-                    description: Tagastab pileti ID, kui loomine õnnestus
-                '400':
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/error'
-                            examples:
-                                Missing parameters:
-                                    value:
-                                        error: "Üks või mitu parameetrit on puudu"
-                    description: Tagastab staatuse 400, kui üks või mitu parameetrit on puudu
-            summary: Lisa uus pilet
-            description: Lisab uue pileti andmed
-    /tickets/{id}:
-        get:
-            tags:
-                - tickets
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  description: Pileti ID, mida kasutaja soovib
-                  schema:
-                      type: integer
-            responses:
-                '200':
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Ticket'
-                            examples:
-                                Example of a ticket with details:
-                                    value:
-                                        TicketID: 1
-                                        EventName: "Kontsert"
-                                        UserID: 123
-                                        PurchaseDate: "2023-10-01T12:00:00Z"
-                                        Price: 25.00
-                                        QRCode: "example-qrcode-1"
-                    description: Tagastab pileti andmed
-                '400':
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/error'
-                            examples:
-                                Invalid ticket id:
-                                    value:
-                                        error: "Vale pileti ID"
-                    description: Tagastab staatuse 400, kui ID on vale
-                '404':
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/error'
-                            examples:
-                                Ticket not found:
-                                    value:
-                                        error: "Piletit ei leitud"
-                    description: Tagastab staatuse 404, kui piletit ei leitud
-            summary: Saada pileti andmed ID järgi
-            description: Tagastab pileti andmed, kasutades pileti ID-d.
-        put:
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Ticket'
-                        examples:
-                            Example of a ticket:
-                                value:
-                                    TicketID: 1
+  /events:
+    get:
+      summary: "Hangi kõik üritused"
+      responses:
+        '200':
+          description: "Ürituste loend"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+    post:
+      summary: "Loo uus üritus"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: "Üritus loodud"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+
+  /events/{eventId}/tickets:
+    post:
+      summary: "Osta pilet üritusele"
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          description: "Ürituse ID"
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '201':
+          description: "Pilet ostetud"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        eventId:
+          type: integer
+          example: 1
+        eventName:
+          type: string
+          example: "Kontsert"
+        eventDate:
+          type: string
+          format: date-time
+          example: "2023-01-01T20:00:00Z"
+        location:
+          type: string
+          example: "Tallinna Kontserdimaja"
+        description:
+          type: string
+          example: "Suurepärane kontsert, kus esinevad parimad artistid."
+
+    Ticket:
+      type: object
+      properties:
+        ticketId:
+          type: integer
+          example: 1
+        eventId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 123
+        purchaseDate:
+          type: string
+          format: date-time
+          example: "2023-01-01T20:00:00Z"
+        price:
+          type: number
+          format: float
+          example: 50.00
+        qrCode:
+          type: string
+          example: "abc123"

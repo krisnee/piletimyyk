@@ -4,7 +4,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 // Andmebaasi ühenduse loomine
 const sequelize = new Sequelize(
-  process.env.DB_DATANAME,
+  process.env.DB_DATABASE,
   process.env.DB_USERNAME,
   process.env.DB_PASSWORD,
   {
@@ -35,8 +35,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Siin saad importida oma mudelid
-db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
-// db.User = require('./models/User')(sequelize, DataTypes); // Kui sul on User mudel
+//db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
+db.Event = require('./models/Event')(sequelize, DataTypes); // Kui sul on User mudel
+
 
 // Mudelite sünkroniseerimine
 const sync = async () => {

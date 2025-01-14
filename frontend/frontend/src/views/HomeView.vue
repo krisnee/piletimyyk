@@ -1,5 +1,5 @@
 <script>
-import TicketTable from '@/components/TicketTable.vue'
+import TicketTable from '@/components/EventsTable.vue'
 export default {
   components: { 
     TicketTable

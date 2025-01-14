@@ -1,13 +1,9 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "piletimyyk-api",
+        "title": "Piletimyyk-API",
         "version": "1.0.0",
-        "description": "### This is a Swagger UI for our Piletimüügi API",
-        "license": {
-            "name": "Apache 2.0",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0"
-        }
+        "description": "API for the sale and management of event tickets"
     },
     "paths": {
         "/events": {
@@ -22,36 +18,17 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "EventID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "EventName": {
-                                                "type": "string",
-                                                "example": "Tallinn Music Night"
-                                            },
-                                            "Description": {
-                                                "type": "string",
-                                                "example": "'Eriline muusikaõhtu koos kohalike ja rahvusvaheliste artistidega."
-                                            },
-                                            "Location": {
-                                                "type": "string",
-                                                "example": "Alexela Kontserdimaja, Tallinn"
-                                            },
-                                            "EventDate": {
-                                                "type": "string",
-                                                "format": "date",
-                                                "example": "2025-02-20"
-                                            },
-                                            "StartTime": {
-                                                "type": "time",
-                                                "format": "time",
-                                                "example": "19:00"
-                                            }
-    
-                                        }
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "List of events": {
+                                        "value": [
+                                            [
+                                                "Pärnu Muusikafestival",
+                                                "Augustibluus"
+                                            ]
+                                        ]
                                     }
                                 }
                             }
@@ -60,7 +37,7 @@
                     }
                 },
                 "summary": "Get a list of all events",
-                "description": "Returns a list of all events"
+                "description": "Returns a list of all events in API"
             }
         }
     }

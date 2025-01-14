@@ -1,105 +1,27 @@
-openapi: 3.0.0
+openapi: 3.0.2
 info:
-  title: Piletimüügi API
-  version: 1.0.0
-  description: API ürituste ja piletite haldamiseks
-
+    title: Piletimyyk-API
+    version: 1.0.0
+    description: API for the sale and management of event tickets
 paths:
-  /events:
-    get:
-      summary: "Hangi kõik üritused"
-      responses:
-        '200':
-          description: "Ürituste loend"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Event'
-
-    post:
-      summary: "Loo uus üritus"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Event'
-      responses:
-        '201':
-          description: "Üritus loodud"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-
-  /events/{eventId}/tickets:
-    post:
-      summary: "Osta pilet üritusele"
-      parameters:
-        - name: eventId
-          in: path
-          required: true
-          description: "Ürituse ID"
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Ticket'
-      responses:
-        '201':
-          description: "Pilet ostetud"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Ticket'
-
-components:
-  schemas:
-    Event:
-      type: object
-      properties:
-        eventId:
-          type: integer
-          example: 1
-        eventName:
-          type: string
-          example: "Kontsert"
-        eventDate:
-          type: string
-          format: date-time
-          example: "2023-01-01T20:00:00Z"
-        location:
-          type: string
-          example: "Tallinna Kontserdimaja"
-        description:
-          type: string
-          example: "Suurepärane kontsert, kus esinevad parimad artistid."
-
-    Ticket:
-      type: object
-      properties:
-        ticketId:
-          type: integer
-          example: 1
-        eventId:
-          type: integer
-          example: 1
-        userId:
-          type: integer
-          example: 123
-        purchaseDate:
-          type: string
-          format: date-time
-          example: "2023-01-01T20:00:00Z"
-        price:
-          type: number
-          format: float
-          example: 50.00
-        qrCode:
-          type: string
-          example: "abc123"
+    /events:
+        get:
+            tags:
+                - events
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of events:
+                                    value:
+                                        -
+                                            - Pärnu Muusikafestival
+                                            - Augustibluus
+                    description: Returns a list of events
+            summary: Get a list of all events
+            description: Returns a list of all events in API

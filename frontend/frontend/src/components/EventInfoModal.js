@@ -1,28 +1,29 @@
-/* deprecated file, to be removed when .vue version of modal implementation starts working*/
+/* deprecated file, to be removed when .vue version of modal implementation starts working */
 
 import confirmationModal from "./ConfirmationModal.js";
-import ticketForm from "./TicketForm.js"; // Eeldame, et sul on TicketForm komponent
-import ticketDetails from "./ticket/TicketDetails.js"; // Eeldame, et sul on TicketDetails komponent
+import eventForm from "./EventForm.js"; // Eeldame, et sul on EventForm komponent
+import eventDetails from "./event/EventDetails.js"; // Eeldame, et sul on EventDetails komponent
 
 export default {
     template: `
-        <div id="ticketInfoModal" class="modal" tabindex="-1">
+        <div id="eventInfoModal" class="modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Pileti info</h1>
+                        <h1 class="modal-title">Ürituse info</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <ticket-form 
+                        <event-form 
                         v-if="isEditing" 
-                        v-model:id="modifiedTicket.id" 
-                        v-model:TicketName="modifiedTicket.TicketName" 
-                        v-model:EventDate="modifiedTicket.EventDate" 
-                        v-model:Price="modifiedTicket.Price">
-                        </ticket-form>
-                        <ticket-details v-else :ticketInModal="ticketInModal">
-                        </ticket-details>
+                        v-model:id="modifiedEvent.id" 
+                        v-model:EventName="modifiedEvent.EventName" 
+                        v-model:EventDate="modifiedEvent.EventDate" 
+                        v-model:Location="modifiedEvent.Location" 
+                        v-model:Price="modifiedEvent.Price">
+                        </event-form>
+                        <event-details v-else :eventInModal="eventInModal">
+                        </event-details>
                     </div>
                     <div class="modal-footer">
                         <div class="container">
@@ -39,7 +40,7 @@ export default {
                                     <div class="col-auto">
                                         <button type="button" 
                                         class="btn btn-success mx-2"
-                                        @click="saveModifiedTicket"
+                                        @click="saveModifiedEvent"
                                         >Salvesta
                                         </button>
                                         <button type="button" 
@@ -70,53 +71,53 @@ export default {
                 </div>
             </div>
         </div>
-        <confirmation-modal :target="'#ticketInfoModal'" @confirmed="deleteTicket"></confirmation-modal>
+        <confirmation-modal :target="'#eventInfoModal'" @confirmed="deleteEvent"></confirmation-modal>
     `,
     components: {
         confirmationModal,
-        ticketForm,
-        ticketDetails
+        eventForm,
+        eventDetails
     },
-    emits: ["ticketUpdated"],
+    emits: ["eventUpdated"],
     props: {
-        ticketInModal: {}
+        eventInModal: {}
     },
     data () {
         return {
             isEditing: false,
-            modifiedTicket: {}
+            modifiedEvent: {}
         }
     },
     methods: {
         startEditing() {
-            this.modifiedTicket = { ...this.ticketInModal }
+            this.modifiedEvent = { ...this.eventInModal }
             this.isEditing = true
         },
         cancelEditing() {
             this.isEditing = false
         },
-        async saveModifiedTicket() {
-            console.log("Salvestamine: ", this.modifiedTicket)
-            const rawResponse = await fetch(this.API_URL + "/tickets/" + this.modifiedTicket.TicketID, {
+        async saveModifiedEvent() {
+            console.log("Salvestamine: ", this.modifiedEvent)
+            const rawResponse = await fetch(this.API_URL + "/events/" + this.modifiedEvent.EventID, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'   
                 },
-                body: JSON.stringify(this.modifiedTicket)
+                body: JSON.stringify(this.modifiedEvent)
             });
             if (!rawResponse.ok) {
                 const errorMessage = await rawResponse.json();
                 alert(`Viga: ${errorMessage.message}`); // Kuvab veateate
             } else {
                 console.log(rawResponse);
-                this.$emit("ticketUpdated", this.modifiedTicket);
+                this.$emit("eventUpdated", this.modifiedEvent);
                 this.isEditing = false;
             }
         },
-        deleteTicket() {
+        deleteEvent() {
             console.log("KUSTUTAMINE kinnitatud");
-            // Siin saad lisada koodi pileti kustutamiseks
+            // Siin saad lisada koodi ürituse kustutamiseks
         }
     }
 }

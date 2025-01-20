@@ -11,76 +11,33 @@ Piletimüügi rakendus, mis võimaldab kasutajatel osta ja hallata pileteid.
 - **Node.js**: Serveri poole arendamiseks.
 - **Express**: Veebiraamistik.
 - **MySQL**: Andmebaasi haldamiseks.
-- **Body-parser**: HTTP päringute töötlemiseks.
-- **CORS**: Erinevate domeenide vahelise suhtluse lubamiseks.
-
+- 
 ## Andmebaasi Struktuur
 ### Tabelid
 - **User**
-  - `id` (PK)
-  - `first_name` (varchar(50))
-  - `last_name` (varchar(50))
-  - `email` (varchar(50))
-  - `password_hash` (string)
+  - `user_id` (integer, PK)
+  - `first_name` (varchar)
+  - `last_name` (varchar)
+  - `email` (varchar(100), UNIQUE)
 
 - **Event**
-  - `id` (PK)
-  - `user_id` (FK)
-  - `title` (text)
+  - `event_id` (integer, PK)
+  - `title` (varchar(100))
   - `description` (text)
+  - `date` (date)
+  - `time` (time)
+  - `price` (decimal(10,2))
   - `location` (text)
-  - `event_date` (date)
-  - `start_time` (time)
-  - `end_time` (time)
 
 - **Ticket**
-  - `id` (PK)
-  - `event_id` (FK)
-  - `user_id` (FK)
-  - `price` (numeric)
-  - `qr_code` (string)
+  - `ticket_id` (integer, PK)
+  - `event_id` (integer, FK)
+  - `user_id` (integer, FK)
   - `purchase_date` (timestamp)
-
-## Kuidas andmebaasi seadistada
-1. Loo MySQL andmebaas nimega `d129002_piletimyykuus`.
-2. Käivita järgmised SQL käsud, et luua vajalikud tabelid:
-   ```sql
-   CREATE TABLE User (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       first_name VARCHAR(50),
-       last_name VARCHAR(50),
-       email VARCHAR(50),
-       password_hash VARCHAR(255)
-   );
-
-   CREATE TABLE Event (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       user_id INT,
-       title TEXT,
-       description TEXT,
-       location TEXT,
-       event_date DATE,
-       start_time TIME,
-       end_time TIME,
-       FOREIGN KEY (user_id) REFERENCES User(id)
-   );
-
-   CREATE TABLE Ticket (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       event_id INT,
-       user_id INT,
-       price NUMERIC,
-       qr_code VARCHAR(255),
-       purchase_date TIMESTAMP,
-       FOREIGN KEY (event_id) REFERENCES Event(id),
-       FOREIGN KEY (user_id) REFERENCES User(id)
-   );
-   ```
+  - `quantity` (integer)
 
 ## Meeskonna Ressursid
 - [API dokumentatsioon](https://studio.apicur.io/apis/113095/)
 - [Trello projekt](https://trello.com/b/436EYyWL/)
 
-![image](https://github.com/user-attachments/assets/58b46112-2111-473a-91e4-dc4a8b412000)
-
-
+![image](https://github.com/user-attachments/assets/60c35213-93a3-4a18-bc0a-b2c2855cda8c)

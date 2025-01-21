@@ -53,3 +53,4 @@ const getTicket = async (req, res) => {
     }
     return ticket;
 }
+//KÄRT

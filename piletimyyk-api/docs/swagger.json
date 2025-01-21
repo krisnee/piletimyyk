@@ -7,6 +7,7 @@
     },
     "paths": {
         "/events": {
+            "description": "",
             "get": {
                 "tags": [
                     "events"
@@ -26,7 +27,8 @@
                                         "value": [
                                             [
                                                 "Pärnu Muusikafestival",
-                                                "Augustibluus"
+                                                "Augustibluus",
+                                                "Tallinna Maraton"
                                             ]
                                         ]
                                     }
@@ -37,7 +39,7 @@
                     }
                 },
                 "summary": "Get a list of all events",
-                "description": "Returns a list of all events in API"
+                "description": "Returns a list of all events in API to the requesting user."
             }
         }
     }

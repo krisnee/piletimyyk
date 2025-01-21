@@ -35,8 +35,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Siin saad importida oma mudelid
-//db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
-db.Event = require('./models/Event')(sequelize, DataTypes); // Kui sul on User mudel
+db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
+db.Event = require('./models/Event')(sequelize, DataTypes);
+db.User = require('./models/User')(sequelize, DataTypes); // Kui sul on User mudel
 
 
 // Mudelite sünkroniseerimine

@@ -5,6 +5,7 @@ info:
     description: API for the sale and management of event tickets
 paths:
     /events:
+        description: ''
         get:
             tags:
                 - events
@@ -22,6 +23,370 @@ paths:
                                         -
                                             - Pärnu Muusikafestival
                                             - Augustibluus
+                                            - Tallinna Maraton
                     description: Returns a list of events
             summary: Get a list of all events
-            description: Returns a list of all events in API
+            description: Returns a list of all events in API to the requesting user.
+        post:
+            requestBody:
+                description: Data of event that the user wants to add
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                type: string
+                        examples:
+                            Example of an event:
+                                value:
+                                    -
+                                        -
+                                            title: Üldlaulupidu ja tantsupidu
+                                            date: '2025-07-05'
+                                            price: '30'
+                                            location: Tallinn
+                required: true
+            tags:
+                - events
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event'
+                            examples:
+                                'Event that is added:':
+                                    value:
+                                        -
+                                            -
+                                                event_id: 44
+                                                title: Music Festival
+                                                date: '2024-06-15'
+                                                price: '33'
+                                                location: Tallinn
+                    description: 'Return code 201 to user, if creation of new event was successful'
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        -
+                                            error: One or multiple parameters are missing
+                    description: 'Return status 400 to the user, if one or multiple of parameters are missing'
+            summary: Add new event
+            description: Adds a new event into the array
+    '/events/{id}':
+        get:
+            tags:
+                - details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/event'
+                            examples:
+                                Full details of a given id event:
+                                    value:
+                                        -
+                                            -
+                                                event_id: 37
+                                                title: Laulu- ja tantsupidu XXIV
+                                                date: '2023-07-01'
+                                                price: '20'
+                                                location: Tallinn
+                                            -
+                                                event_id: 19
+                                                title: Tartu Maraton
+                                                date: '2023-09-10'
+                                                price: '15'
+                                                location: Tallinn
+                    description: Returns full details of a given id event
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                'Event /w+ was not found ':
+                                    value:
+                                        -
+                                            error: Event \w+ was not found in events array.
+                    description: Event was not found in events array
+            deprecated: false
+            operationId: event_id
+            summary: Get full details of an event
+            description: Returns full details of a given id event to the requesting user
+        put:
+            requestBody:
+                description: Id of event to be updated
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/event'
+                        examples:
+                            'Example of event:':
+                                value:
+                                    -
+                                        event_id: 73
+                                        title: Viljandi Pärimusmuusika Festival
+                                        date: '2025-07-15'
+                                        price: '77'
+                                        location: Viljandi
+                required: true
+            tags:
+                - events
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                            examples:
+                                'Example of modified event:':
+                                    value: |-
+                                        event_id: 22
+                                        title: Station Narva
+                                        date: '2025-09-22'
+                                        price: '40'
+                                        location: Narva
+                    description: Returns the modified event to the user
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                'Missing parameters:':
+                                    value:
+                                        -
+                                            error: One or multiple parameters are missing
+                    description: User has not added required parameters to the modified event
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                'Missing event:':
+                                    value:
+                                        -
+                                            error: Event not found
+                    description: The event to be updated is not found in the array
+            operationId: id
+            summary: Update an event
+            description: 'Returns updated event, when modification of a event is successful'
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+    /tickets: {}
+    /users:
+        get:
+            tags:
+                - users
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user'
+                            examples:
+                                List of users:
+                                    value:
+                                        -
+                                            user_id: 38
+                                            name: Marju Valju
+                                            email: marju@email.ee
+                                            password: D1Z1Z1Z1Z1Z1Z1Z1Z1Z1Z1O
+                    description: Sends all users to requester
+            summary: Get a list of all users in API
+            description: Retreives all users from the array
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/user'
+                        examples:
+                            'Example of a user to be added:':
+                                value:
+                                    -
+                                        user_id: 78
+                                        name: Teele Tali
+                                        email: teele@hot.ee
+                                        password: l84994949494N0000
+                required: true
+            tags:
+                - users
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user'
+                            examples:
+                                'Example of added user:':
+                                    value:
+                                        -
+                                            user_id: 37
+                                            name: Kalle Kusta
+                                            email: kalle@online.ee
+                                            password: 209P4983I8913824U985B//
+                    description: New user was added
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                'User is missing parameters:':
+                                    value:
+                                        -
+                                            error: One or multiple parameters are missing
+                    description: 'When user is missing a parameter, respond with this'
+            summary: Add new user
+            description: New user to be added into the array
+    '/users/{id}':
+        get:
+            tags:
+                - details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user'
+                            examples:
+                                ' Example of a user:':
+                                    value:
+                                        -
+                                            user_id: 7
+                                            name: Tiia
+                                            email: tiia@hotmail.com
+                                            password: 9i099854SG654H5H64Z86G4S
+                    description: User is found by the given id
+            operationId: user_id
+            summary: Get one user
+            description: Retreives a single user with its details from the array
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+    '/tickets/{id}':
+        description: ''
+        get:
+            tags:
+                - details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                'Example of a ticket with details:':
+                                    value:
+                                        -
+                                            -
+                                                ticket_id: 1
+                                                event_id: 3
+                                                user_id: 42
+                                                quantity: 2
+                                                purchase_date: '2025-07-27'
+                    description: Returns details of a ticket to the user
+            operationId: ticket_id
+            summary: Get full details of an ticket
+            description: Returns details of a given id ticket to the requesting user
+components:
+    schemas:
+        error:
+            title: Root Type for error
+            description: ''
+            type: object
+            properties:
+                error:
+                    type: string
+            example:
+                error: Error message.
+        event:
+            title: Root Type for event
+            description: ''
+            type: object
+            properties:
+                event_id:
+                    format: int32
+                    type: integer
+                title:
+                    type: string
+                date:
+                    format: date
+                    type: string
+                price:
+                    type: string
+                location:
+                    type: string
+            example:
+                event_id: 34
+                title: Ürituse nimi
+                date: '2024-06-15'
+                price: '20'
+                location: Asukoht
+        user:
+            title: Root Type for user
+            description: ''
+            type: object
+            properties:
+                user_id:
+                    format: int32
+                    type: integer
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+            example:
+                user_id: 42
+                name: Krista
+                email: krista@example.com
+                password: $2b$12$KIXQ1Z1Z1Z1Z1Z1Z1Z1Z1O
+        ticket:
+            title: Root Type for ticket
+            description: ''
+            type: object
+            properties:
+                ticket_id:
+                    format: int32
+                    type: integer
+                event_id:
+                    format: int32
+                    type: integer
+                user_id:
+                    format: int32
+                    type: integer
+                quantity:
+                    format: int32
+                    type: integer
+                purchase_date:
+                    format: date
+                    type: string
+            example:
+                ticket_id: 1
+                event_id: 3
+                user_id: 42
+                quantity: 2
+                purchase_date: '2025-01-01'

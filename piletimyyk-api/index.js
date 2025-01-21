@@ -18,8 +18,19 @@ const events = [
 app.get('/events', (req, res) => {
     res.send([events]);
 });
+
+app.post('/events', (req, res) => {
+    events.push(req.body.name);
+    res.send([events]);
+});
+
 app.get('/events/:id', (req, res) => {
-    res.send(games[req.params.id]);
+    res.send(events[req.params.id]);
+});
+
+app.put('/events/:id', (req, res) => {
+    events[req.params.id] = req.body.name;
+    res.send(events[req.params.id]);
 });
 
 app.listen(port, () => {

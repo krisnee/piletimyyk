@@ -2,12 +2,12 @@ module.exports = (sequelize, DataTypes) => {
     const Ticket = sequelize.define(
         'Ticket',
         {
-            TicketID: {
+            ticket_id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            EventID: {
+            event_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                     key: 'EventID'
                 }
             },
-            UserID: {
+            user_id: {
                 type: DataTypes.INTEGER,
                 allowNull: true, // Kui kasutajad on valikulised
                 references: {
@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
                     key: 'UserID'
                 }
             },
-            Quantity: {
+            quantity: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 1, // Vaikimisi ostetud piletite arv
             },
-            PurchaseDate: {
+            purchase_date: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW, // Vaikimisi ostu kuupäev
             }

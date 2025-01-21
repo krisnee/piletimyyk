@@ -10,7 +10,8 @@ export default {
   }
 },
   async created() {
-    this.allUsers = await (await fetch('http://localhost:8080/user')).json()
+    this.allUsers = await (await fetch('http://localhost:8080/users
+    // ')).json()
   }
 }
 </script>

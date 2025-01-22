@@ -1,25 +1,11 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    <Navbar />  <!-- Include the Navbar -->
-    <router-view /> <!-- This is where the routed components will be displayed -->
-  </div>
-</template>
-
-<script>
-import Navbar from './components/Navbar.vue';
-
-export default {
-  components: {
-    Navbar,
-  },
-};
-</script>
-=======
   <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/login">Tickets</RouterLink>
+<RouterLink to="/signup">Sign Up</RouterLink>
+
     </nav>
   </header>
 
@@ -68,4 +54,3 @@ main {
   padding-top: 5rem; 
 }
 </style>
->>>>>>> 7ae190b5dc2c5cafad0e069dbfe0defe9d8c2771

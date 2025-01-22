@@ -1,10 +1,3 @@
-<template>
-  <main>
-    <EventsTable :items="allEvents" />
-    <!-- <TicketsTable :items="allTickets" /> -->
-  </main>
-</template>
-
 <script>
 import TicketTable from '@/components/EventsTable.vue'
 export default {

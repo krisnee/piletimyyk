@@ -6,29 +6,26 @@
 </template>
 
 <script>
-import EventsTable from '@/components/EventsTable.vue';
-// import TicketsTable from '@/components/TicketsTable.vue';
-
+import TicketTable from '@/components/EventsTable.vue'
 export default {
   components: { 
-    EventsTable, // Lisa EventsTable komponent
-    // TicketsTable
+    TicketTable
   },
-  data() { 
+  data() {
     return {
-      // allTickets: [],
-      allEvents: [] // Lisa allEvents muutuja
-    };
-  },
+    allTickets: []
+  }
+},
   async created() {
-    try {
-      // Laadi ürituste andmed
-      this.allEvents = await (await fetch('http://localhost:8080/events')).json();
-      // Laadi piletite andmed
-      // this.allTickets = await (await fetch('http://localhost:8080/tickets')).json();
-    } catch (error) {
-      console.error('Andmete laadimise viga:', error);
-    }
+    this.allTickets = await (await fetch('http://localhost:8080/tickets')).json()
   }
 }
 </script>
+
+<template>
+  <main>
+    <TicketTable :items="allTickets
+    
+    "/>
+  </main>
+</template>

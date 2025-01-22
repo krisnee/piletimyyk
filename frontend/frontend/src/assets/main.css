@@ -33,3 +33,11 @@ a,
     padding: 0 2rem;
   }
 }
+
+@media (max-width: 576px) {
+  body {
+    display: block;
+    place-items: top;
+    margin-top: 5rem;
+  }
+}

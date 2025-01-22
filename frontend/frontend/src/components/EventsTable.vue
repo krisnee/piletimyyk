@@ -2,23 +2,23 @@
   <table class="table table-striped">
       <thead class="table-dark">
           <tr>
-              <th>EventName</th>
+              <th>Title</th>
               <th>Description</th>
-              <th>Location</th>
               <th>Date</th>
               <th>Time</th>
               <th>Price</th>
+              <th>Location</th>
           </tr>
       </thead>
       <tbody>
-          <tr v-for="event in events" :key="event.EventID">
-              <td>{{ event.EventID }}</td>
-              <td>{{ event.EventName }}</td>
-              <td>{{ event.Descritpion }}</td>
-              <td>{{ event.Location }}</td>
-              <td>{{ event.Date }}</td>
-              <td>{{ event.Time }}</td>
-              <td>{{ event.Price }}</td>
+          <tr v-for="event in events" :key="event.event_id">
+              <td>{{ event.event_id }}</td>
+              <td>{{ event.title }}</td>
+              <td>{{ event.descritpion }}</td>
+              <td>{{ event.date }}</td>
+              <td>{{ event.time }}</td>
+              <td>{{ event.price }}</td>
+              <td>{{ event.location }}</td>
           </tr>
       </tbody>
   </table>

@@ -11,26 +11,26 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'Events', // Seondub Event mudeliga
-                    key: 'EventID'
+                    model: 'Events',
+                    key: 'event_id'
                 }
             },
             user_id: {
                 type: DataTypes.INTEGER,
-                allowNull: true, // Kui kasutajad on valikulised
+                allowNull: true,
                 references: {
-                    model: 'Users', // Seondub User mudeliga
-                    key: 'UserID'
+                    model: 'Users',
+                    key: 'user_id'
                 }
             },
             quantity: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                defaultValue: 1, // Vaikimisi ostetud piletite arv
+                defaultValue: 1,
             },
             purchase_date: {
                 type: DataTypes.DATE,
-                defaultValue: DataTypes.NOW, // Vaikimisi ostu kuupäev
+                defaultValue: DataTypes.NOW,
             }
         }
     );

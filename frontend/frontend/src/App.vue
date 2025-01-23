@@ -1,29 +1,14 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    <Navbar />  <!-- Include the Navbar -->
-    <router-view /> <!-- This is where the routed components will be displayed -->
-  </div>
-</template>
-
-<script>
-import Navbar from './components/Navbar.vue';
-
-export default {
-  components: {
-    Navbar,
-  },
-};
-</script>
-=======
   <header>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
+      <RouterLink>Piletimüük-API</RouterLink>
+      <div class="topnav">
+        <input type="text" placeholder="Search events.." class="search-input">
+      </div>
+      <RouterLink to="/events">Events</RouterLink>
       <RouterLink to="/about">About</RouterLink>
     </nav>
   </header>
-
-  <RouterView />
 </template>
 
 <style scoped>
@@ -36,6 +21,7 @@ header {
   left: 0;
   width: 100%;
   z-index: 1000;
+  margin-bottom: 1rem;
 }
 
 nav {
@@ -64,5 +50,38 @@ nav a:hover {
 main {
   padding-top: 5rem;
 }
+
+.search-input {
+  padding: 0.5rem;
+  border-radius: 20px; /* Ümarad nurgad */
+  border: 1px solid #ccc;
+  width: 360px; /* Suurem otsinguriba */
+}
+@media (max-width: 768px) {
+  .topnav {
+    flex-direction: column; /* Muutke paigutust väiksematel ekraanidel */
+  }
+}
+ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 0 1em;
+}
+
+button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c0392b;
+}
+
 </style>
->>>>>>> 7ae190b5dc2c5cafad0e069dbfe0defe9d8c2771

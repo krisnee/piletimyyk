@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8081;
+const port = 8080;
 
 const swaggerUi = require('swagger-ui-express');
 const yamljs = require('yamljs');
@@ -11,6 +11,7 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
+/*
 const events = [
     "Laulu- ja tantsupidu XX",
     "Tallinna Maraton",
@@ -19,7 +20,7 @@ const events = [
     "Jõulujazz",
     "Tallinn Music Week",
     "Tallinna Merepäevad"
-];
+];*/
 
 
 app.get('/events', (req, res) => {

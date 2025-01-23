@@ -4,7 +4,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 // Andmebaasi ühenduse loomine
 const sequelize = new Sequelize(
-  process.env.DB_DATABASE,
+  process.env.DB_DATANAME,
   process.env.DB_USERNAME,
   process.env.DB_PASSWORD,
   {
@@ -29,6 +29,8 @@ const sequelize = new Sequelize(
     }
 })();
 
+
+
 // Mudelite importimine
 const db = {};
 db.Sequelize = Sequelize;
@@ -41,9 +43,17 @@ db.User = require('./models/User')(sequelize, DataTypes);
 
 
 // Mudelite sünkroniseerimine
+// Mudelite sünkroniseerimine
 const sync = async () => {
-    await sequelize.sync({ alter: true });
-    console.log('Mudelite sünkroniseerimine on edukalt lõpetatud.');
+    try {
+        await sequelize.sync({ alter: true }); // Kasutage { force: true } arenduse ajal, et tabeleid täielikult uuesti luua
+        console.log('Mudelite sünkroniseerimine on edukalt lõpetatud.');
+    } catch (error) {
+        console.error('Mudelite sünkroniseerimine ebaõnnestus: ' + error);
+    }
 };
+
+// Kutsuge sync funktsioon välja
+sync();
 
 module.exports = { db, sync };

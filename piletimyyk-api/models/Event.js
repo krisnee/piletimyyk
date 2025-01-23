@@ -2,37 +2,36 @@ module.exports = (sequelize, DataTypes) => {
     const Event = sequelize.define(
         'Event',
         {
-            EventID: {
+            event_id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            Name: {
+            title: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            Description: {
+            description: {
                 type: DataTypes.TEXT,
             },
-            Location: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            Date: {
+            date: {
                 type: DataTypes.DATE,
                 allowNull: false,
             },
-            Time: {
+            time: {
                 type: DataTypes.TIME,
                 allowNull: false,
             },
-            Price: {
+            price: {
                 type: DataTypes.DECIMAL,
+                allowNull: false,
+            },
+            location: {
+                type: DataTypes.STRING,
                 allowNull: false,
             }
         }
-    );
-  
+    );  
     console.log(Event === sequelize.models.Event);
     return Event;
   }

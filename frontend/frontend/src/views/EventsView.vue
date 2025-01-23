@@ -1,30 +1,24 @@
 <template>
-  <main class="container col-12 col-sm-7">
-    <h2 class="text-center">Events</h2>
+  <header>
+    <nav>
+      
+      <div class="topnav">
+        <input type="text" placeholder="Search events.." class="search-input">
+      </div>
+<router-link to="/about">About</router-link>
+    </nav>
+  </header>
 
-    <!-- Sorting Options -->
-    <div class="row d-flex align-items-center mb-2">
-      <div class="col-auto">
-        <button v-if="!showAddForm && !editingEvent && isAdmin" @click="showAddForm = true" class="btn btn-primary btn-sm">Add Event</button>
-      </div>
-      <div class="col-auto ms-auto">
-        <div class="sorting-options">
-          <label for="sortColumn" class="form-label me-2">Sort By:</label>
-          <select id="sortColumn" v-model="sortOption" class="form-select form-select-sm d-inline-block w-auto">
-            <option value="title:asc">Title (A-Z)</option>
-            <option value="title:desc">Title (Z-A)</option>
-            <option value="date:asc">Date (Ascending)</option>
-            <option value="date:desc">Date (Descending)</option>
-            <option value="price:asc">Price (Ascending)</option>
-            <option value="price:desc">Price (Descending)</option>
-          </select>
-        </div>
-      </div>
-    </div>
+  <main class="container col-12 col-sm-7">
+    <h2 class="text-center">Add new event</h2>
+
 
     <!-- Add Event Form -->
     <div v-if="showAddForm && isAdmin" class="edit-form container">
       <h2>Add New Event</h2>
+      <div class="col-auto">
+      <button v-if="!showAddForm" @click="showAddForm = false" class="btn btn-primary btn-sm">Add Event</button>
+      </div>
       <form @submit.prevent="addItem">
         <div class="row col-12 col-sm-6 mb-2">
           <div class="row d-flex mb-1">
@@ -34,15 +28,7 @@
             <div class="col-8">
               <input type="text" v-model="newEvent.title" required />
             </div>
-          </div>
-          <div class="row d-flex mb-1">
-            <div class="col-4">
-              <label for="price">Price:</label>            
-            </div>
-            <div class="col-8">
-              <input type="number" v-model="newEvent.price" required />
-            </div>
-          </div>
+          
           <div class="row d-flex mb-1">
             <div class="col-4">
               <label for="description">Description:</label>
@@ -67,6 +53,16 @@
               <input type="time" v-model="newEvent.time" />
             </div>
           </div>
+        </div>
+          <div class="row d-flex mb-1">
+            <div class="col-4">
+              <label for="price">Price:</label>
+            </div>
+            <div class="col-8">
+              <input type="number" v-model="newEvent.price" required />
+            </div>
+          </div>
+          
           <div class="d-flex justify-content-end">
             <button class="btn btn-info btn-sm me-1" type="button" @click="showAddForm = false">Cancel</button>
             <button class="btn btn-primary btn-sm" type="submit">Add Event</button>
@@ -153,10 +149,11 @@ export default {
       showAddForm: false,
       newEvent: {
         title: "",
-        price: "",
         description: "",
         date: "",
         time: "",
+        price: "",
+        location: "",
       },
       isAdmin: false,
     };
@@ -253,10 +250,11 @@ export default {
         const token = localStorage.getItem("token");
         const eventPayload = {
           title: this.newEvent.title.trim(),
-          price: Number(this.newEvent.price),
           description: this.newEvent.description.trim(),
           date: this.newEvent.date,
           time: this.newEvent.time,
+          price: Number(this.newEvent.price),
+          location: this.newEvent.location.trim(),
         };
 
         const response = await fetch("http://localhost:8080/events", {
@@ -273,7 +271,7 @@ export default {
         const createdEvent = await response.json();
         this.allEvents.push(createdEvent);
         this.showAddForm = false;
-        this.newEvent = { title: "", price: "", description: "", date: "", time: "" };
+        this.newEvent = { title: "", description: "", date: "", time: "", price: "", location: "" };
       } catch (error) {
         console.error("Error adding event:", error.message);
       }
@@ -283,5 +281,9 @@ export default {
 </script>
 
 <style scoped>
-/* Siin saad lisada oma stiilid */
+.order-summary {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 5px;
+}
 </style>

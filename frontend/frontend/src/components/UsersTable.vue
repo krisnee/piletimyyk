@@ -12,7 +12,8 @@ export default {
         <thead class="table-dark">
             <tr>
                 <th>User id</th>
-                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
             </tr>
         </thead>
         <tbody>

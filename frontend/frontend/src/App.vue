@@ -7,11 +7,15 @@
       </div>
       <RouterLink to="/events">Events</RouterLink>
       <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/login">Tickets</RouterLink>
+<RouterLink to="/signup">Sign Up</RouterLink>
+
     </nav>
   </header>
 </template>
 
 <style scoped>
+/* Header stiil */
 header {
   background-color: #f8f9fa;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -24,11 +28,12 @@ header {
   margin-bottom: 1rem;
 }
 
+/* Nav stiil */
 nav {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
+  justify-content: center; /* Keskenda lingid horisontaalselt */
+  align-items: center; /* Joonda lingid vertikaalselt */
+  gap: 2rem; /* Ruumi lingide vahel */
 }
 
 nav a {
@@ -40,15 +45,16 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #007bff;
+  color: #007bff; 
 }
 
 nav a:hover {
-  color: #0056b3;
+  color: #0056b3; 
 }
 
+
 main {
-  padding-top: 5rem;
+  padding-top: 5rem; 
 }
 
 .search-input {

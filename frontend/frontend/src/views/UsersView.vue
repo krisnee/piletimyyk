@@ -17,8 +17,6 @@ export default {
 
 <template>
   <main>
-    <UsersTable :items="allUsers
-    
-    "/>
+    <UsersTable :items="allUsers"/>
   </main>
 </template>

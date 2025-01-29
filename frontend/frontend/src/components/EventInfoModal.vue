@@ -19,6 +19,13 @@ export default {
             modifiedEvent: {}
         }
     },
+    data() {
+       return {
+           API_URL: process.env.VUE_APP_API_URL, // Kasutab .env failis defineeritud URL-i
+           isEditing: false,
+           modifiedEvent: {}
+       }
+   },
     methods: {
         startEditing() {
             this.modifiedEvent = { ...this.eventInModal }
@@ -120,4 +127,4 @@ export default {
         </div>
     </div>
     <confirmation-modal :target="'#eventInfoModal'" @confirmed="deleteEvent"></confirmation-modal>
-</template>s
+</template>

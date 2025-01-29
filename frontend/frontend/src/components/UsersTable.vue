@@ -17,9 +17,10 @@ export default {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in items" :key="item.ID">
-                <td>{{ item.ID }}</td>
-                <td>{{ item.Username }}</td>
+            <tr v-for="item in items" :key="item.user_id">
+                <td>{{ item.user_id }}</td>
+                <td>{{ item.First name }}</td>
+                <td>{{ item.Last name }}</td>
             </tr>
         </tbody>
     </table>

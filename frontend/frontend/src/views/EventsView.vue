@@ -5,7 +5,7 @@
       <div class="topnav">
         <input type="text" placeholder="Search events.." class="search-input">
       </div>
-<router-link to="/about">About</router-link>
+      <router-link router-link to="/about">About</router-link>
     </nav>
   </header>
 

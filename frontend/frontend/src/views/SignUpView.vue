@@ -56,7 +56,7 @@ export default {
         signup() {
             this.error = null;
 
-            axios.post('http://localhost:8080/api/auth/signup', {
+            axios.post('http://localhost:8080/signup', {
                 name: this.name,
                 email: this.email,
                 password: this.password

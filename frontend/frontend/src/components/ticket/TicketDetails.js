@@ -1,6 +1,5 @@
-// TicketDetails.js
 export default {
-  name: "TicketDetails",
+  name: "EventDetails",
   props: {
       ticketInModal: Object
   }

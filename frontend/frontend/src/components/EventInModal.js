@@ -6,7 +6,7 @@ import eventDetails from "./event/EventDetails.js"; // Eeldame, et sul on EventD
 
 export default {
     template: `
-        <div id="eventInfoModal" class="modal" tabindex="-1">
+        <div id="eventInModal" class="modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -71,7 +71,7 @@ export default {
                 </div>
             </div>
         </div>
-        <confirmation-modal :target="'#eventInfoModal'" @confirmed="deleteEvent"></confirmation-modal>
+        <confirmation-modal :target="'#eventInModal'" @confirmed="deleteEvent"></confirmation-modal>
     `,
     components: {
         confirmationModal,
@@ -98,7 +98,7 @@ export default {
         },
         async saveModifiedEvent() {
             console.log("Salvestamine: ", this.modifiedEvent)
-            const rawResponse = await fetch(this.API_URL + "/events/" + this.modifiedEvent.EventID, {
+            const rawResponse = await fetch(this.API_URL + "/events/" + this.modifiedEvent.event_id, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

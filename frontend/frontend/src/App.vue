@@ -1,3 +1,7 @@
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+</script>
+
 <template>
   <header>
     <nav>
@@ -25,6 +29,7 @@ header {
   width: 100%;
   z-index: 1000;
   margin-bottom: 1rem;
+  line-height: 1.5;
 }
 nav {
   display: flex;
@@ -54,6 +59,7 @@ main {
   border: 1px solid #ccc;
   width: 360px;
   text-align: center;
+  
 }
 @media (max-width: 768px) {
   .topnav {

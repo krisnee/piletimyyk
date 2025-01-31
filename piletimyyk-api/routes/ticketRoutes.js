@@ -1,13 +1,13 @@
 // piletimyyk-api/routes/tickets.js
-const ticketController = require('../controllers/TicketsController');
+const TicketsController = require('../controllers/TicketsController');
 
 module.exports = (app) => {
-    app.route("/ticket")
-        .get(ticketController.getAll)
-        .post(ticketController.create);
+    app.route("/tickets")
+        .get(TicketsController.getAll)
+        .post(TicketsController.create);
 
-    app.route("/ticket/:id")
-        .get(ticketController.getById)
-        .put(ticketController.editById)
-        .delete(ticketController.deleteById);
+    app.route("/tickets/:id")
+        .get(TicketsController.getById)
+        .put(TicketsController.editById)
+        .delete(TicketsController.deleteById);
 };

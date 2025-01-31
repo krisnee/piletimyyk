@@ -15,15 +15,18 @@ export default {
   async created() {
     try {
       const response = await fetch('http://localhost:8080/events'); // Laadib sündmused backendist
-      if (!response.ok) throw new Error('Failed to fetch events');
-      this.allEvents = await response.json(); // Salvesta sündmused
-    } catch (err) {
+      if (!response.ok) {
+       console.log(response); // Logige vastus, et näha, mis on valesti
+       throw new Error('Failed to fetch events');
+    }
+  }
+     catch (err) {
       this.error = err.message; // Kuvab vea, kui midagi läheb valesti
     } finally {
       this.isLoading = false; // Lõpetab laadimise oleku
     }
-  },
-};
+  }
+}
 </script>
 
 <template>
@@ -57,24 +60,7 @@ export default {
         </div>
       </div>
     </div>
-    
-    <!-- Admin Controls -->
-
-    <div v-if="isAdmin" class="row d-flex align-items-center mt-2">
-      <div class="col-auto ms-auto">
-        <button @click="toggleAdminMode" class="btn btn-sm btn-primary">Toggle Admin Mode</button>
-      </div>
-    </div>
-    
-    <!-- Add Event Form -->
-     
-    <!-- Events Table -->
-    <EventsTable
-      :items="sortedEvents"
-      :isAdmin="isAdmin"
-      @delete-item="deleteItem"
-      @edit-item="editItem"
-    />
+  
   </main>
 </template>
 

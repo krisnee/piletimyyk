@@ -25,14 +25,20 @@ app.get('/events', (req, res) => {
     res.send(events);
 });
 
-app.post('/events', (req, res) => {
-    if (!req.body.name) {
-        return res.status(400).send({ error: 'Event name is required' });
+app.post('/events', async (req, res) => {
+    const { title, date, price, location } = req.body;
+    if (!title || !date || !price || !location) {
+      return res.status(400).send('Kõik väljad on kohustuslikud');
     }
-    const newEvent = { name: req.body.name, ticketsAvailable: req.body.ticketsAvailable || 0 };
-    events.push(newEvent);
-    res.status(201).send(events);
-});
+    
+    try {
+      const newEvent = { title, date, price, location };
+      await db.query('INSERT INTO events SET ?', newEvent);
+      res.status(201).send('Üritus lisatud');
+    } catch (error) {
+      res.status(500).send('Viga andmebaasi salvestamisel');
+    }
+  });
 
 app.get('/events/:id', (req, res) => {
     const id = parseInt(req.params.id);

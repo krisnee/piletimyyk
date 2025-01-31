@@ -1,30 +1,18 @@
+require('dotenv').config();
+
+const port = process.env.PORT || 3001;
+const host = 'localhost';
 const express = require('express');
-const app = express();
-const port = 8080;
-
-const swaggerUi = require('swagger-ui-express');
-const yamljs = require('yamljs');
-const path = require('path');
-const swaggerDocument = yamljs.load(path.join(__dirname, 'docs', 'swagger.yaml'));
-
-app.use(express.json());
 const cors = require('cors');
-app.use(cors({
-     origin: 'http://localhost:5173'
-}));
+const app = express();
 
-// Korrektne events massiivi definitsioon
-const events = [
-    { name: "Laulu- ja tantsupidu XX", ticketsAvailable: 100 },
-    { name: "Tallinna Maraton", ticketsAvailable: 50 },
-    { name: "Simple Session", ticketsAvailable: 30 },
-    // Lisage siia teised sündmused
-];
+const swaggerUI = require('swagger-ui-express');
+const yamljs = require('yamljs');
+const swaggerDoc = yamljs.load('./docs/swagger.yaml');
 
-app.get('/events', (req, res) => {
-    res.send(events);
-});
+const {sync} = require('./db');
 
+<<<<<<< HEAD
 app.post('/events', (req, res) => {
     if (!req.body.name) {
         return res.status(400).send({ error: 'Event name is required' });
@@ -71,4 +59,25 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
     console.log(`Server töötab aadressil http://localhost:${port}`);
+=======
+
+app.use(cors());
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.send(`Server running. Documentation at <a href="http://${host}:${port}/docs">/docs</a>`);
+})
+
+require("./routes/eventRoutes")(app);
+require("./routes/ticketRoutes")(app);
+
+
+
+app.listen(port, async() => {
+    if (process.env.SYNC === 'true') {
+        await sync();
+    }
+    console.log(`Api on saadaval aadressil: http://${host}:${port}`);
+>>>>>>> aa7bea7 (Initialize new frontend structure with Vite, Vue, and ESLint; add essential configurations and components)
 });

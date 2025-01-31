@@ -53,7 +53,4 @@ const sync = async () => {
     }
 };
 
-// Kutsuge sync funktsioon välja
-sync();
-
 module.exports = { db, sync };

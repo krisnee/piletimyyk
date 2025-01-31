@@ -112,11 +112,5 @@ const findEventById = async (req) => {
         res.status(404).send({ error: "Üritust ei leitud" });
         return null;  // Return null if no event is found
     }
-<<<<<<< HEAD
     return event;  // Return the event if found
 };
-=======
-    return ticket;
-}
-//KÄRT
->>>>>>> f39bd4c6cfbc1767c1521e3881294e0e30d952ff

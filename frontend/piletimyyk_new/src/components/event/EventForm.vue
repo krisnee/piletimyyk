@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import TicketForm from "./TicketForm.js";
+import TicketForm from "./EventForm.js";
 
 export default TicketForm;
 </script>

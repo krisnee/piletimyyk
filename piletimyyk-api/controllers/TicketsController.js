@@ -1,4 +1,5 @@
 const { db } = require('../db');
+const Utils = require("./utils");
 
 // Get all tickets
 exports.getAll = async (req, res) => {
@@ -13,7 +14,7 @@ exports.getAll = async (req, res) => {
                 {
                     model: db.Event,
                     as: "event",
-                    attributes: ["event_id", "title", "date", "time", "price"],
+                    attributes: ["event_id", "title", "description", "date", "time", "price", "location"],
                 },
             ],
         });

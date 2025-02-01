@@ -1,4 +1,5 @@
 const { db } = require('../db');
+const Utils = require("./utils");
 
 // Get all events
 exports.getAll = async (req, res) => {

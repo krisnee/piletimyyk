@@ -6,12 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "",
-    "start": "concurrently \"cd piletimyyk-api && nodemon .\" \"cd frontend\\frontend && npm run dev\""
+    "start": "concurrently \"cd piletimyyk-api && nodemon .\" \"cd frontend\\piletimyyk_new && npm run dev\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^9.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }

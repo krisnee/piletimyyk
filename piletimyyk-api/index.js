@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const port = process.env.PORT || 3001;
-const host = 'localhost';
+const port = process.env.PORT || 3001; // 3001;
+const host = 'localhost';   //"127.0.0.1";
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -22,7 +22,13 @@ app.get("/", (req, res) => {
 
 require("./routes/eventRoutes")(app);
 require("./routes/ticketRoutes")(app);
+require("./routes/userRoutes")(app);
 
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Sisemine serveri viga');
+  });
 
 
 app.listen(port, async() => {
@@ -31,3 +37,4 @@ app.listen(port, async() => {
     }
     console.log(`Api on saadaval aadressil: http://${host}:${port}`);
 });
+

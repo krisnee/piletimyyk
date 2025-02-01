@@ -15,4 +15,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: { // Muuda devServer serveriks
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api'), // pathRewrite on asendatud rewrite
+      },
+      "/events": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/events/, '/events'), // pathRewrite on asendatud rewrite
+      },
+    },
+  },
 })

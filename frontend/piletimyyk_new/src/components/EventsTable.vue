@@ -14,6 +14,7 @@ export default {
                 <th>Title</th>
                 <th>Description</th>
                 <th>Date</th>
+                <th>Time</th>
                 <th>Location</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@ export default {
                 <td>{{ item.title }}</td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.date }}</td>
+                <td>{{ item.time }}</td>
                 <td>{{ item.location }}</td>
             </tr>
         </tbody>

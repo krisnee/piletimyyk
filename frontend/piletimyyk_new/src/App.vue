@@ -1,88 +1,114 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import AuthModal from './components/AuthModal.vue'
+import { ref } from 'vue';
+//import HelloWorld from './components/HelloWorld.vue'
+const authModalRef = ref(null); // Viidatud AuthModalile
+
+const showAuthModal = () => {
+    authModalRef.value.openModal(); // Avab AuthModal
+};
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
+    <div>
+    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <div class="wrapper"><HelloWorld msg="You did it!" />   </div>-->
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/events">Events</RouterLink>
-        <RouterLink to="/tickets">Tickets</RouterLink>
-        <RouterLink to="/users">Users</RouterLink>
+        <div class="topnav">
+          <input type="text" placeholder="Search events.." class="search-input">
+        </div>
+        <RouterLink to="/about">About</RouterLink>
+        <button  @click="showAuthModal" type="submit" class="btn btn-secondary w-100">Log In / Register</button>
+        <p v-if="error" class="text-danger mt-3 text-center">{{ error }}</p>
       </nav>
-    </div>
+  </div>
   </header>
 
-  <RouterView />
+  <div class="container">
+      <main>
+      <RouterView />
+    </main>
+  </div>
+  <AuthModal ref="authModalRef" />
 </template>
 
 <style scoped>
 header {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  margin-bottom: 1rem;
   line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
 nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  text-decoration: none;
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+nav a:hover {
+  background-color: transparent;
+}
+nav a.router-link-exact-active {
+  color: #007bff;
+}
+.search-input {
+  padding: 0.5rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  width: 360px;
+  text-align: center;
+}
+main {
+  padding-top: 5rem;
 }
 
-nav a:first-of-type {
-  border: 0;
+ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  margin: 0 1em;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+@media (max-width: 768px) {
+  .topnav {
+    flex-direction: column; /* Muutke paigutust väiksematel ekraanidel */
   }
+}
+.btn-secondary {
+    background-color: #007bff; /* Sinine nupp */
+    color: white; /* Tekst valge */
+    border: none;
+    padding: 9px 18px; /* Suurenda nupu sisedisaini */
+    border-radius: 5px; /* Ümarad nurgad */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Ülemineku efekt */ 
+    font-size: 16px; /* Muuda fondi suurust, et see sobiks teistega */
+    font-family: Arial, sans-serif; /* Muuda fondi tüüp, et see sobiks teistele elementidele */
+    font-weight: small; /* Muuda fondi paksus, et see sobiks teistele elementidele */
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.btn-secondary:hover {
+    background-color: #0056b3; /* Tumenev sinine hover-efekt */
 }
 </style>

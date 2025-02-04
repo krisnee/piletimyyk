@@ -1,26 +1,45 @@
-<template>
-  <form>
-      <div class="mb-3">
-          <label for="ticketName" class="form-label">Pileti nimi</label>
-          <input type="text" class="form-control" id="ticketName" v-model="TicketName" @input="$emit('update:TicketName', TicketName)">
-      </div>
-      <div class="mb-3">
-          <label for="eventDate" class="form-label">Sündmuse kuupäev</label>
-          <input type="date" class="form-control" id="eventDate" v-model="EventDate" @input="$emit('update:EventDate', EventDate)">
-      </div>
-      <div class="mb-3">
-          <label for="price" class="form-label">Hind</label>
-          <input type="number" class="form-control" id="price" v-model="Price" @input="$emit('update:Price', Price)">
-      </div>
-  </form>
-</template>
-
-<script>
-import TicketForm from "./EventForm.js";
-
-export default TicketForm;
-</script>
-
-<style scoped>
-/* Siia saad lisada oma stiilid */
-</style>
+  <script>
+  import { ref } from 'vue';
+  
+  export default {
+    emits: ['event-added'],
+    setup(props, { emit }) {
+      const event = ref({
+        title: '',
+        date: '',
+        time: '',
+        location: '',
+        price: ''
+      });
+  
+      const submitEvent = async () => {
+        await fetch('http://localhost:8080/events', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(event.value)
+        });
+        emit('event-added'); // Teata, et üritus on lisatud
+        event.value = { title: '', date: '', time: '', location: '', price: '' }; // Tühjenda vorm
+      };
+  
+      return {
+        event,
+        submitEvent
+      };
+    }
+  };
+  </script>
+  
+  <template>
+    <form @submit.prevent="submitEvent">
+      <input v-model="event.title" placeholder="Event Title" required />
+      <input v-model="event.date" type="date" required />
+      <input v-model="event.time" type="time" required />
+      <input v-model="event.location" placeholder="Location" required />
+      <input v-model="event.price" type="number" placeholder="Price" required />
+      <button type="submit">Add Event</button>
+    </form>
+  </template>
+  

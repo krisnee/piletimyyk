@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
 import AuthModal from './components/AuthModal.vue';
+import { ref } from 'vue';
 
-const authModalRef = ref(null); // Viidatud AuthModalile
+const authModalRef = ref(null); // Muuda see null-ks
 
 const showAuthModal = () => {
-  authModalRef.value.openModal(); // Avab AuthModal
+  authModalRef.value.openModal(); // Ava modal
 };
 </script>
 
@@ -17,8 +17,10 @@ const showAuthModal = () => {
       <RouterLink to="/events">Events</RouterLink>
       <RouterLink to="/about">About</RouterLink>
       <button @click="showAuthModal" class="btn btn-secondary">Log In / Register</button>
+      <RouterLink to="/admin">Admin</RouterLink>
     </nav>
     <p v-if="error" class="text-danger">{{ error }}</p>
+    
   </header>
 
   <div class="container">

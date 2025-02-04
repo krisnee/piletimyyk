@@ -1,24 +1,14 @@
 <script>
-import EventsTable from '@/components/EventsTable.vue'
+import TicketingApp from '@/components/TicketingApp.vue';
 export default {
   components: { 
-    EventsTable
-  },
-  data() { 
-    return {
-    allEvents: []
-  }
-},
-  async created() {
-    this.allEvents = await (await fetch('http://localhost:8080/events')).json()
+    TicketingApp
   }
 }
 </script>
 
 <template>
-  <main>
-    <EventsTable :items="allEvents
-    
-    "/>
-  </main>
+  <div>
+    <TicketingApp />
+  </div>
 </template>

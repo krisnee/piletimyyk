@@ -1,38 +1,32 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import AuthModal from './components/AuthModal.vue'
 import { ref } from 'vue';
-//import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from 'vue-router';
+import AuthModal from './components/AuthModal.vue';
+
 const authModalRef = ref(null); // Viidatud AuthModalile
 
 const showAuthModal = () => {
-    authModalRef.value.openModal(); // Avab AuthModal
+  authModalRef.value.openModal(); // Avab AuthModal
 };
 </script>
 
 <template>
   <header>
-    <div>
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-    <div class="wrapper"><HelloWorld msg="You did it!" />   </div>-->
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/events">Events</RouterLink>
-        <div class="topnav">
-          <input type="text" placeholder="Search events.." class="search-input">
-        </div>
-        <RouterLink to="/about">About</RouterLink>
-        <button  @click="showAuthModal" type="submit" class="btn btn-secondary w-100">Log In / Register</button>
-        <p v-if="error" class="text-danger mt-3 text-center">{{ error }}</p>
-      </nav>
-  </div>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/events">Events</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <button @click="showAuthModal" class="btn btn-secondary">Log In / Register</button>
+    </nav>
+    <p v-if="error" class="text-danger">{{ error }}</p>
   </header>
 
   <div class="container">
-      <main>
+    <main>
       <RouterView />
     </main>
   </div>
+
   <AuthModal ref="authModalRef" />
 </template>
 
@@ -46,8 +40,11 @@ header {
   left: 0;
   width: 100%;
   z-index: 1000;
-  margin-bottom: 1rem;
-  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+.container {
+  padding-top: 5rem; /* Jätab ruumi päise all */
 }
 
 nav {
@@ -64,51 +61,28 @@ nav a {
   font-weight: bold;
   transition: color 0.3s;
 }
+
 nav a:hover {
-  background-color: transparent;
-}
-nav a.router-link-exact-active {
   color: #007bff;
 }
-.search-input {
-  padding: 0.5rem;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  width: 360px;
-  text-align: center;
-}
-main {
-  padding-top: 5rem;
-}
 
-ul {
-  display: flex;
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  margin: 0 1em;
-}
-
-@media (max-width: 768px) {
-  .topnav {
-    flex-direction: column; /* Muutke paigutust väiksematel ekraanidel */
-  }
-}
 .btn-secondary {
-    background-color: #007bff; /* Sinine nupp */
-    color: white; /* Tekst valge */
-    border: none;
-    padding: 9px 18px; /* Suurenda nupu sisedisaini */
-    border-radius: 5px; /* Ümarad nurgad */
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Ülemineku efekt */ 
-    font-size: 16px; /* Muuda fondi suurust, et see sobiks teistega */
-    font-family: Arial, sans-serif; /* Muuda fondi tüüp, et see sobiks teistele elementidele */
-    font-weight: small; /* Muuda fondi paksus, et see sobiks teistele elementidele */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #0056b3; /* Tumenev sinine hover-efekt */
+  background-color: #0056b3;
 }
+main {
+  margin-top: 2rem;
+  padding: 2rem;
+  max-width: 800px;
+}
+
 </style>

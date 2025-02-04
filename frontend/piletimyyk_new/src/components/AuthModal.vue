@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios';
+//import axios from 'axios';
 
 export default {
     data() {
@@ -99,25 +99,27 @@ export default {
     margin-top: 20px;
     font: 1.5rem;
     margin-bottom: 20px;
+    text-align: center;
 }
 .form-control {
-    height: 50px; /* Suurenda kõrgust */
+    height: 45px; /* Suurenda kõrgust */
     font-size: 16px; /* Suurenda fondi suurust */
     padding: 10px; /* Lisa sisedisain */
     border: 1px solid #ccc; /* Piiride värv */
     border-radius: 5px; /* Ümarad nurgad */
-    width: 90%; /* Täida kogu saadaval olev ruum */
+    width: 96%; /* Täida kogu saadaval olev ruum */
     margin-bottom: 15px; /* Lisa vahe lahtrite vahel */
 }
 .btn-secondary {
     background-color: #007bff; /* Sinine nupp */
     color: white; /* Tekst valge */
     border: none;
-    padding: 12px 20px; /* Nupu sisedisain */
-    border-radius: 5px; /* Ümarad nurgad */
+    padding: 12px 140px; /* Nupu sisedisain */
+    border-radius: 30px; /* Ümarad nurgad */
     cursor: pointer;
     transition: background-color 0.3s ease; /* Ülemineku efekt */ 
     font-size: 18px;
+    width: 95%; /* Täida kogu saadaval olev ruum */
 }
 .btn-secondary:hover {
     background-color: #0056b3; /* Hover efekt */

@@ -38,8 +38,6 @@ db.Event = require('./models/Event')(sequelize, DataTypes);
 db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
 db.User = require('./models/User')(sequelize, DataTypes);
 
-
-// Mudelite sünkroniseerimine
 // Mudelite sünkroniseerimine
 const sync = async () => {
     try {

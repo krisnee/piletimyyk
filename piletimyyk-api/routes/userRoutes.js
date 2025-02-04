@@ -9,4 +9,7 @@ module.exports = (app) => {
         .get(UsersController.getById)
         .put(UsersController.editById)
         .delete(UsersController.deleteById);
+
+    //app.route("/users/login")
+     //   .post(UsersController.loginUser);
 };

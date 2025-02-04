@@ -25,8 +25,10 @@ paths:
                                             - Augustibluus
                                             - Tallinna Maraton
                     description: Returns a list of events
+            deprecated: false
+            operationId: getAllEvents
             summary: Get a list of all events
-            description: Returns a list of all events in API to the requesting user.
+            description: Returns a list of all events in API to the requesting user
         post:
             requestBody:
                 description: Data of event that the user wants to add
@@ -76,6 +78,8 @@ paths:
                                         -
                                             error: One or multiple parameters are missing
                     description: 'Return status 400 to the user, if one or multiple of parameters are missing'
+            deprecated: false
+            operationId: createEvent
             summary: Add new event
             description: Adds a new event into the array
     '/events/{id}':
@@ -122,7 +126,7 @@ paths:
                                             error: Event \w+ was not found in events array
                     description: Event was not found in events array
             deprecated: false
-            operationId: event_id
+            operationId: getEventById
             summary: Get full details of an event
             description: Returns full details of a given id event to the requesting user
         put:
@@ -185,26 +189,75 @@ paths:
                                             error: Event not found
                     description: The event to be updated is not found in the array
             deprecated: false
-            operationId: event_id
+            operationId: updateEvent
             summary: Update an event
             description: 'Returns updated event, when modification of a event is successful'
         delete:
-            requestBody:
-                description: |
-                    If of event that is to be deleted
+            tags:
+                - events
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
             responses:
                 '204':
                     content:
                         application/json:
                             schema:
+                                $ref: '#/components/schemas/message'
+                            examples:
+                                Event Deletion Success:
+                                    value:
+                                        -
+                                            message: Event successfully deleted
+                    description: Event successfully deleted
+                '400':
+                    content:
+                        application/json:
+                            schema:
                                 $ref: '#/components/schemas/error'
-                    description: Deletes
+                            examples:
+                                Invalid Request:
+                                    value:
+                                        -
+                                            error: Bad request
+                    description: Bad request. The request could not be understood or some parameters are missing
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Event Deletion Error:
+                                    value:
+                                        -
+                                            error: >-
+                                                Event not found. The event with the specified ID does not
+                                                exist.
+                    description: Event not found. The event with the specified ID does not exist.
+            deprecated: false
+            operationId: deleteEvent
+            summary: Deletes an event
+            description: Deletes an event from the system based on the provided event ID
         parameters:
             -
                 name: id
                 in: path
                 required: true
-    /tickets: {}
+    /tickets:
+        get:
+            tags:
+                - tickets
+            deprecated: false
+            operationId: getAllTickets
+            summary: Get a list of all events
+            description: Returns a list of all tickets in API to the requesting user
+        post:
+            tags:
+                - tickets
+            deprecated: false
+            operationId: createTicket
     /users:
         get:
             tags:
@@ -224,6 +277,8 @@ paths:
                                             last_name: Valju
                                             email: marju@email.ee
                     description: Sends all users to requester
+            deprecated: false
+            operationId: getAllUsers
             summary: Get a list of all users in API
             description: Retreives all users from the array
         post:
@@ -269,6 +324,8 @@ paths:
                                         -
                                             error: One or multiple parameters are missing
                     description: 'When user is missing a parameter, respond with this'
+            deprecated: false
+            operationId: createUser
             summary: Add new user
             description: New user to be added into the array
     '/users/{id}':
@@ -292,16 +349,18 @@ paths:
                         error: {}
                     description: User is found by the given id
             deprecated: false
-            operationId: users/id
+            operationId: getUserById
             summary: Get one user
             description: Retreives a single user with its details from the array
         put:
             tags:
                 - users
             deprecated: false
-            operationId: users/id
+            operationId: updateUser
             summary: Update user
             description: 'Returns updated user, when modification was successful'
+        delete:
+            operationId: deleteUser
         parameters:
             -
                 name: id
@@ -332,9 +391,70 @@ paths:
                                                 purchase_date: '2025-07-27'
                     description: Returns details of a ticket to the user
             deprecated: false
-            operationId: ticket_id
+            operationId: getTicketById
             summary: Get full details of an ticket
             description: Returns details of a given id ticket to the requesting user
+        put:
+            operationId: updateTicket
+        delete:
+            operationId: deleteTicket
+    /users/login:
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/user'
+                        examples:
+                            User Credentials:
+                                value:
+                                    -
+                                        email: user@example.com
+                                        password: password12345
+                required: true
+            tags:
+                - users
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/message'
+                            examples:
+                                Login Success Response:
+                                    value:
+                                        -
+                                            message: Login successful.
+                    description: Confirms that user has successfully logged in.
+                '401':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/message'
+                            examples:
+                                Invalid Credentials Response:
+                                    value:
+                                        -
+                                            message: ' Invalid email or password.'
+                    description: >-
+                        User should check their credentials and try again, because the provided email or
+                        password is incorrect.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/message'
+                            examples:
+                                Internal Server Error Response:
+                                    value:
+                                        message: Error logging in.
+                    description: >-
+                        User should try again later or contact support if the issue of an error on the server
+                        while processing the request persists.
+            deprecated: false
+            operationId: loginUser
+            summary: User login
+            description: User to be authenticated.
 components:
     schemas:
         error:
@@ -415,3 +535,12 @@ components:
                 user_id: 42
                 quantity: 2
                 purchase_date: '2025-01-01'
+        message:
+            title: Root Type for message
+            description: ''
+            type: object
+            properties:
+                message:
+                    type: string
+            example:
+                message: Login successful

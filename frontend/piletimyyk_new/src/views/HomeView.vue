@@ -1,6 +1,6 @@
 <script setup>
 //import TheWelcome from '../components/TheWelcome.vue'
-import ShortEventsTable from '@/components/ShortEventsTable.vue';
+import ShortEventsTable from '@/components/event/ShortEventsTable.vue';
 import { ref, onMounted } from 'vue';
 
 // Töötleme andmete muutumist

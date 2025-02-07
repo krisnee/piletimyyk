@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, RouterView, useRouter } from 'vue-router';
-import AuthModal from './components/AuthModal.vue';
+import AuthModal from './components/auth/AuthModal.vue';
 import { ref } from 'vue';
 
 const authModalRef = ref(null); // Muuda see null-ks

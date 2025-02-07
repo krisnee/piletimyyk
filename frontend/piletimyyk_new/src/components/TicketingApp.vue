@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
-import EventsTable from '@/components/EventsTable.vue';
+import EventsTable from '@/components/event/EventsTable.vue';
 
 const search = ref('');
 const getAllEvents = ref([]);
@@ -52,10 +52,6 @@ const performSearch = () => {
   );
 };
 
-// Vaata otsingut
-watch(search, (newSearch) => {
-  performSearch();
-});
 
 </script>
 

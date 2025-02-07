@@ -30,19 +30,18 @@ exports.getById = async (req, res) => {
 // Create a new event
 exports.create = async (req, res) => {
     // Ensure the user is an admin
-    if (!req.user || req.user.role !== 'admin') {
-        return res.status(403).send({ error: 'Ainult administraatorid saavad luua üritusi' });
-    }
+    // if (!req.user || req.user.role !== 'admin') {
+    //     return res.status(403).send({ error: 'Ainult administraatorid saavad luua üritusi' });
+    // }
 
-    const { title, description, date, time, price, location } = req.body;
+    const { title, date, time, price, location } = req.body;
 
-    if (!title || !description || !date || !time || price == null || !location) {
+    if (!title || !date || !time || price == null || !location) {
         return res.status(400).send({ error: 'Puuduvad vajalikud väljad' });
     }
 
     const newEvent = {
         title,
-        description,
         date,
         time,
         price,

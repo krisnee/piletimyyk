@@ -10,6 +10,6 @@ module.exports = (app) => {
         .put(UsersController.editById)
         .delete(UsersController.deleteById);
 
-    //app.route("/users/login")
-     //   .post(UsersController.loginUser);
+    app.route("/users/login")
+        .post(UsersController.loginUser);
 };

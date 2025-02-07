@@ -10,7 +10,7 @@ const props = defineProps({
 
 const buyTicket = (event_id) => {
   // Parandatud event_id -> eventId
-  alert(`Teie pilet on edukalt ostetud ning edastatakse Teile emnailile!`);
+  alert(`Your ticket has been successfully purchased and will be sent to your email address!`);
 };
 </script>
 

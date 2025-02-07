@@ -322,7 +322,6 @@ paths:
                                 List of users:
                                     value:
                                         -
-                                            user_id: 38
                                             first_name: Marju
                                             last_name: Valju
                                             email: marju@email.ee
@@ -357,7 +356,6 @@ paths:
                             examples:
                                 Example of added user:
                                     value:
-                                        user_id: 37
                                         first_name: Kalle
                                         last_name: Kusta
                                         email: kalle68@online.ee

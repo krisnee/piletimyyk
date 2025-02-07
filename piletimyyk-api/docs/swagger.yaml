@@ -86,11 +86,6 @@ paths:
         get:
             tags:
                 - events
-            parameters:
-                -
-                    name: id
-                    in: path
-                    required: true
             responses:
                 '200':
                     content:
@@ -195,11 +190,6 @@ paths:
         delete:
             tags:
                 - events
-            parameters:
-                -
-                    name: id
-                    in: path
-                    required: true
             responses:
                 '204':
                     content:
@@ -249,15 +239,75 @@ paths:
         get:
             tags:
                 - tickets
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items: {}
+                            examples:
+                                List of tickets:
+                                    value:
+                                        ticket_id: 1
+                                        event_id: 3
+                                        user_id: 42
+                                        quantity: 2
+                                        purchase_date: '2025-01-01'
+                    description: Returns a list of events
             deprecated: false
             operationId: getAllTickets
-            summary: Get a list of all events
+            summary: Get a list of all tickets
             description: Returns a list of all tickets in API to the requesting user
         post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                type: string
+                        examples:
+                            Example of a ticket:
+                                value:
+                                    ticket_id: 1
+                                    event_id: 3
+                                    user_id: 42
+                                    quantity: 2
+                                    purchase_date: '2025-01-01'
+                required: true
             tags:
                 - tickets
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ticket'
+                            examples:
+                                Ticket that is added:
+                                    value:
+                                        ticket_id: 1
+                                        event_id: 3
+                                        user_id: 42
+                                        quantity: 2
+                                        purchase_date: '2025-01-01'
+                    description: 'Return code 201 to user, if creation of ticket was successful.'
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        -
+                                            error: One or multiple parameters are missing
+                    description: 'Return status 400 to the user, if one or multiple of parameters are missing'
             deprecated: false
             operationId: createTicket
+            summary: Add new ticket
+            description: Adds a new ticket into the array.
     /users:
         get:
             tags:
@@ -299,19 +349,18 @@ paths:
             tags:
                 - users
             responses:
-                '200':
+                '201':
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/user'
+                                $ref: '#/components/schemas/event'
                             examples:
-                                'Example of added user:':
+                                Example of added user:
                                     value:
-                                        -
-                                            user_id: 37
-                                            first_name: Kalle
-                                            last_name: Kusta
-                                            email: kalle68@online.ee
+                                        user_id: 37
+                                        first_name: Kalle
+                                        last_name: Kusta
+                                        email: kalle68@online.ee
                     description: New user was added
                 '400':
                     content:
@@ -339,28 +388,126 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/user'
                             examples:
-                                ' Example of a user:':
+                                Full details of a given id user:
                                     value:
                                         -
-                                            user_id: 7
-                                            first_name: Tiia
-                                            last_name: Kask
-                                            email: tiiakask@hotmail.com
-                        error: {}
-                    description: User is found by the given id
+                                            user_id: 83
+                                            email: karlk@gmail.com
+                                            first_name: Karl
+                                            last_name: Kaasik
+                    description: Returns full details of a given id user
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Event was not found:
+                                    value:
+                                        error: Event was not found in events array
+                    description: User was not found in users array
             deprecated: false
             operationId: getUserById
             summary: Get one user
             description: Retreives a single user with its details from the array
         put:
+            requestBody:
+                description: Id user to be updated
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/user'
+                        examples:
+                            Example of user:
+                                value:
+                                    -
+                                        user_id: 84
+                                        email: reelika@gmail.com
+                                        first_name: Reelik
+                                        last_name: Tamm
+                required: true
             tags:
                 - users
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/user'
+                            examples:
+                                Example of mofified user:
+                                    value:
+                                        -
+                                            user_id: 58
+                                            email: kalvoika@gmail.com
+                                            first_name: Kalvi
+                                            last_name: Kalle
+                    description: Returns the modified user to the user
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        error: One or multiple parameters are missing
+                    description: User has not added required parameters to the modified user
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing user:
+                                    value:
+                                        -
+                                            error: User not found
+                    description: The user to be updated is not found in the array
             deprecated: false
             operationId: updateUser
             summary: Update user
             description: 'Returns updated user, when modification was successful'
         delete:
+            tags:
+                - users
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/message'
+                            examples:
+                                User deletion success:
+                                    value:
+                                        -
+                                            message: User successfully deleted
+                    description: User successfully deleted
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Invalid Request:
+                                    value:
+                                        error: Bad request
+                    description: Bad request. The request could not be understood or some parameters are missing
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                User deletion error:
+                                    value:
+                                        -
+                                            error: User not found. The user with the specified ID does not exist
+                    description: User not found. The user with the specified ID does not exist.
+            deprecated: false
             operationId: deleteUser
+            summary: Deletes an user
+            description: Deletes an user from the system based on the provided user ID
         parameters:
             -
                 name: id
@@ -371,6 +518,11 @@ paths:
         get:
             tags:
                 - tickets
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
             responses:
                 '200':
                     content:
@@ -390,14 +542,131 @@ paths:
                                                 quantity: 2
                                                 purchase_date: '2025-07-27'
                     description: Returns details of a ticket to the user
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Ticket was not found:
+                                    value:
+                                        -
+                                            error: Ticket was not found.
+                    description: Ticket was not found
             deprecated: false
             operationId: getTicketById
             summary: Get full details of an ticket
             description: Returns details of a given id ticket to the requesting user
         put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ticket'
+                        examples:
+                            Example of ticket:
+                                value:
+                                    -
+                                        ticket_id: 33
+                                        event_id: 28
+                                        user_id: 0
+                                        quantity: 36
+                                        purchase_date: '2018-01-17'
+                required: true
+            tags:
+                - tickets
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ticket'
+                            examples:
+                                Example of modified ticket:
+                                    value:
+                                        -
+                                            ticket_id: 88
+                                            event_id: 85
+                                            user_id: 4
+                                            quantity: 15
+                                            purchase_date: '2018-01-17'
+                    description: Returns the modified ticket to the user
+                '400':
+                    content:
+                        application/json:
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        error: One or multiple parameters are missing
+                    description: User has not added required parameters to the modified ticket
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing ticket:
+                                    value:
+                                        -
+                                            error: Ticket not found
+                    description: The ticket to be updated is not found in the array
+            deprecated: false
             operationId: updateTicket
+            summary: Update a ticket
+            description: 'Returns updated ticket, when modification of a ticket is successful'
         delete:
+            tags:
+                - tickets
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/message'
+                            examples:
+                                "Ticket deletion duccess\t":
+                                    value:
+                                        -
+                                            message: Ticket successfully deleted
+                    description: Ticket successfully deleted
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Invalid Request:
+                                    value:
+                                        -
+                                            error: Bad request
+                    description: Bad request. The request could not be understood or some parameters are missing
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                "Ticket deletion error\t":
+                                    value:
+                                        -
+                                            error: >-
+                                                Ticket not found. The ticket with the specified ID does not
+                                                exist
+                    description: Ticket not found. The event with the specified ID does not exist
+            deprecated: false
             operationId: deleteTicket
+            summary: Deletes a ticket
+            description: Deletes a ticket from the system based on the provided ticket ID
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
     /users/login:
         post:
             requestBody:

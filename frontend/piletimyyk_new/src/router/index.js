@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import EventsView from '../views/EventsView.vue'
 import AdminView from '../views/AdminView.vue'
-//import { isAdmin } from '@/auth'
+import { isAdmin } from '@/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,13 +29,13 @@ const router = createRouter({
       path: '/admin', // Uus marsruut admin vaatele
       name: 'admin',
       component: AdminView,
-      // beforeEnter: (to, from, next) => {
-      //   if (isAdmin.value) {
-      //     next(); // Luba juurdepääs admin vaatele
-      //   } else {
-      //     next({ name: 'home' }); // Suuna tagasi kodulehe peale
-      //   }
-      //}
+       beforeEnter: (to, from, next) => {
+         if (isAdmin.value) {
+           next(); // Luba juurdepääs admin vaatele
+         } else {
+           next({ name: 'home' }); // Suuna tagasi kodulehe peale
+         }
+      }
     }
   ]
 })

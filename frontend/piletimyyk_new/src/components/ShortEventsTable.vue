@@ -20,7 +20,7 @@ const viewDetails = (id) => {
     <div v-for="event in items.slice(0, 3)" :key="event.id" class="event-card">
       <h3>{{ event.title }}</h3>
       <p>{{ event.date }} at {{ event.time }}</p>
-      <button @click="viewDetails(event.id)">Vaata rohkem</button>
+      <button @click="viewDetails(event.event_id)">Vaata rohkem</button>
     </div>
   </div>
 </template>

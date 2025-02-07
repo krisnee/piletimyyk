@@ -28,7 +28,7 @@ export default {
           this.error = 'Please enter a valid e-mail address.';
           return;
         }
-        // Siin saad lisada oma autentimise loogika
+        // Siin on adminkonto autentimise loogika
         if (this.email === 'admin@example.com' && this.password === 'password') { // Näiteks
           loginAsAdmin(); // Logi sisse adminina
           this.closeModal(); // Sulge modal
@@ -95,43 +95,78 @@ export default {
     </div>
   </template>
   
-  
   <style scoped>
-  /* Siin saad lisada oma stiilid */
-  .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+  .container {
+      max-width: 400px;
   }
-  .modal-content {
-    background-color: #E0F7FA;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px;
+  .card-header {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 20px;
+      font: 1.5rem;
+      margin-bottom: 20px;
   }
-  .close {
-    cursor: pointer;
-    float: right;
-    font-size: 1.5rem;
+  .form-control {
+      height: 50px; /* Suurenda kõrgust */
+      font-size: 16px; /* Suurenda fondi suurust */
+      padding: 10px; /* Lisa sisedisain */
+      border: 1px solid #ccc; /* Piiride värv */
+      border-radius: 5px; /* Ümarad nurgad */
+      width: 90%; /* Täida kogu saadaval olev ruum */
+      margin-bottom: 15px; /* Lisa vahe lahtrite vahel */
+  }
+  .btn-secondary {
+      background-color: #007bff; /* Sinine nupp */
+      color: white; /* Tekst valge */
+      border: none;
+      padding: 12px 20px; /* Nupu sisedisain */
+      border-radius: 5px; /* Ümarad nurgad */
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Ülemineku efekt */ 
+      font-size: 18px;
+  }
+  .btn-secondary:hover {
+      background-color: #0056b3; /* Hover efekt */
   }
   .text-danger {
-    color: red;
+      color: red;
+  }
+  .modal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Tumeda tausta efekt */
+      z-index: 1000; /* Veendu, et see on üle teiste elementide */
+  }
+  .modal-content {
+      background-color: #E0F7FA;
+      padding: 20px;
+      border-radius: 8px; /* Nurgad on ümarad */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Varju efekt */
+      width: 400px; /* Saad muuta vastavalt vajadusele */
+  }
+  .close {
+      cursor: pointer; /* Muuda kursor, et näidata, et see on klikitav */
+      float: right; /* Paiguta sulgemisnupp paremale */
+      font-size: 1.5rem; /* Suurenda sulgemisnupu suurust */
+  }
+  .close:hover {
+      color: grey; /* Heledam hover-efekt */
   }
   .toggle-mode {
-    color: #007bff;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
+      color: #007bff;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 10px;
   }
   .toggle-mode:hover {
-    color: #0056b3;
+      color: #0056b3; /* Heledam hover-efekt */
   }
+  
   </style>

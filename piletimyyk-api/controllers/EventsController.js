@@ -5,8 +5,8 @@ const Utils = require("./utils");
 exports.getAll = async (req, res) => {
     try {
         const events = await db.Event.findAll(); // Fetch data from the database
-        res.status(200).json(events.map(({ event_id, title, description, date, time, price, location }) => ({
-            event_id, title, description, date, time, price, location
+        res.status(200).json(events.map(({title, description, date, time, price, location }) => ({
+            title, description, date, time, price, location
         })));
     } catch (error) {
         console.error('Ürituste andmete toomise viga:', error);
@@ -34,7 +34,7 @@ exports.create = async (req, res) => {
     //     return res.status(403).send({ error: 'Ainult administraatorid saavad luua üritusi' });
     // }
 
-    const { title, date, time, price, location } = req.body;
+    const { title, description, date, time, price, location } = req.body;
 
     if (!title || !date || !time || price == null || !location) {
         return res.status(400).send({ error: 'Puuduvad vajalikud väljad' });
@@ -42,6 +42,7 @@ exports.create = async (req, res) => {
 
     const newEvent = {
         title,
+        description,
         date,
         time,
         price,

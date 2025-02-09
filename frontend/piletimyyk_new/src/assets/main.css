@@ -17,7 +17,7 @@ a,
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: hsl(0, 0%, 100%);
   }
 }
 
@@ -32,4 +32,148 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+}
+
+/* HEADER STYLES */
+.header {
+  /* Põhilised header stiilid */
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+  /* Navigation */
+  .header-nav {
+    /* Navigatsiooni stiilid */
+    max-width: 1200px; /* või teie soovitud laius */
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;   
+  }
+    nav a:hover {
+      color: #007bff;
+    }
+    .nav-links {
+      /* Linkide stiilid */
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+      .nav-link {
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-weight: bold;
+    }
+    
+    .nav-link:hover {
+      color: #007bff;
+    }
+    
+    /* Eemaldab router-lingi aktiivse oleku taustavärvi */
+    .router-link-active,
+    .router-link-exact-active {
+      background-color: transparent !important;
+      color: #007bff;
+    }
+
+    .nav-button {
+      /* Nuppude stiilid */
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+      .nav-button:hover {
+        background-color: #0056b3;
+      }
+
+/* LAYOUT & CONTAINER STYLES */
+/* ------------------------- */
+
+/* Main Layout */
+main {
+  margin-top: 5rem;
+  max-width: 3000px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* BUTTON STYLES */
+.button {
+  /* Põhilised nupu stiilid */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.button:hover {
+  background-color: #0056b3;
+}
+  .button-primary {
+    /* Peamise nupu stiilid */
+  }
+
+  .button-secondary {
+    /* Teisese nupu stiilid */
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+  background-color: #c0392b;
+  }
+
+.large-search-input {
+  width: 95%; /* Muuda laius 100% */
+  padding: 12px 12px 12px 40px; /* Suurenda paddingut ja lisage vasakule padding ikooni jaoks */
+  border: 1px solid #ccc; /* Piirjoon */
+  border-radius: 25px; /* Ümaramad äärted */
+  font-size: 16px; /* Suurenda fondi suurust */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lisa kerge vari */
+  margin-bottom: 20px; /* Lisa ruum allapoole */
+}
+.large-search-input:focus {
+  outline: none; /* Eemalda fookuse kontuur */
+  border-color: #007bff; /* Muuda piirjoone värv fookuses */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Lisa fookuse vari */
+}
+
+.small-search-input {
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.search-icon {
+  position: absolute;
+  padding: 12px;
+  left: 12px;
+  color: #888;
 }

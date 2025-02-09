@@ -1,5 +1,5 @@
 <script>
-import TicketingApp from '@/components/TicketingApp.vue';
+import TicketingApp from '@/components/event/TicketingApp.vue';
 export default {
   components: { 
     TicketingApp

@@ -55,17 +55,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/event'
+                                type: array
+                                items:
+                                    type: string
                             examples:
                                 'Event that is added:':
-                                    value:
-                                        -
-                                            -
-                                                event_id: 44
-                                                title: Music Festival
-                                                date: '2024-06-15'
-                                                price: '33'
-                                                location: Tallinn
+                                    value: |-
+                                        [
+                                            [
+                                                {
+                                                    "title": "Music Festival",
+                                                    "description": "Celebrating event",
+                                                    "date": "2024-06-15",
+                                                    "time": "13:000,"
+                                                    "price": "33",
+                                                    "location": "Tallinn"
+                                                }
+                                            ]
+                                        ]
                     description: 'Return code 201 to user, if creation of new event was successful'
                 '400':
                     content:
@@ -99,13 +106,17 @@ paths:
                                             -
                                                 event_id: 37
                                                 title: Laulu- ja tantsupidu XXIV
+                                                description: Kogu Eesti rahva üritus
                                                 date: '2023-07-01'
+                                                time: '16:00'
                                                 price: '20'
                                                 location: Tallinn
                                             -
                                                 event_id: 19
                                                 title: Tartu Maraton
+                                                description: Kogu Eesti rahva üritus
                                                 date: '2023-09-10'
+                                                time: '11:00'
                                                 price: '15'
                                                 location: Tallinn
                     description: Returns full details of a given id event
@@ -137,7 +148,9 @@ paths:
                                     -
                                         event_id: 73
                                         title: Viljandi Pärimusmuusika Festival
+                                        description: Suurim pärimuse üritus
                                         date: '2025-07-15'
+                                        time: '18:00'
                                         price: '77'
                                         location: Viljandi
                 required: true
@@ -249,7 +262,6 @@ paths:
                             examples:
                                 List of tickets:
                                     value:
-                                        ticket_id: 1
                                         event_id: 3
                                         user_id: 42
                                         quantity: 2
@@ -283,11 +295,12 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ticket'
+                                type: array
+                                items:
+                                    type: string
                             examples:
                                 Ticket that is added:
                                     value:
-                                        ticket_id: 1
                                         event_id: 3
                                         user_id: 42
                                         quantity: 2
@@ -317,7 +330,9 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/user'
+                                type: array
+                                items:
+                                    type: string
                             examples:
                                 List of users:
                                     value:
@@ -325,6 +340,7 @@ paths:
                                             first_name: Marju
                                             last_name: Valju
                                             email: marju@email.ee
+                                            password: 3R3R3R3R3
                     description: Sends all users to requester
             deprecated: false
             operationId: getAllUsers
@@ -335,15 +351,17 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/user'
+                            type: array
+                            items:
+                                type: string
                         examples:
                             'Example of a user to be added:':
                                 value:
                                     -
-                                        user_id: 78
                                         first_name: Teele
                                         last_name: Tali
                                         email: teele@hot.ee
+                                        password: 3P3P3P3P3
                 required: true
             tags:
                 - users
@@ -352,13 +370,16 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/event'
+                                type: array
+                                items:
+                                    type: string
                             examples:
                                 Example of added user:
                                     value:
                                         first_name: Kalle
                                         last_name: Kusta
                                         email: kalle68@online.ee
+                                        password: 4T4T4T4T4
                     description: New user was added
                 '400':
                     content:
@@ -393,6 +414,7 @@ paths:
                                             email: karlk@gmail.com
                                             first_name: Karl
                                             last_name: Kaasik
+                                            password: 3K3K3K3K3K3
                     description: Returns full details of a given id user
                 '404':
                     content:
@@ -423,6 +445,7 @@ paths:
                                         email: reelika@gmail.com
                                         first_name: Reelik
                                         last_name: Tamm
+                                        password: 2P2P2P2P2P2
                 required: true
             tags:
                 - users
@@ -440,6 +463,7 @@ paths:
                                             email: kalvoika@gmail.com
                                             first_name: Kalvi
                                             last_name: Kalle
+                                            password: 2P2P2P2P2P2
                     description: Returns the modified user to the user
                 '400':
                     content:
@@ -671,7 +695,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/user'
+                            $ref: '#/components/schemas/login'
                         examples:
                             User Credentials:
                                 value:
@@ -733,49 +757,6 @@ components:
                     type: string
             example:
                 error: Error message.
-        event:
-            title: Root Type for event
-            description: ''
-            type: object
-            properties:
-                event_id:
-                    format: int32
-                    type: integer
-                title:
-                    type: string
-                date:
-                    format: date
-                    type: string
-                price:
-                    type: string
-                location:
-                    type: string
-            example:
-                event_id: 34
-                title: Ürituse nimi
-                date: '2024-06-15'
-                price: '20'
-                location: Asukoht
-        user:
-            title: Root Type for user
-            description: ''
-            type: object
-            properties:
-                user_id:
-                    format: int32
-                    type: integer
-                email:
-                    type: string
-                first_name:
-                    type: string
-                last_name:
-                    description: ''
-                    type: string
-            example:
-                user_id: 42
-                first_name: Krista
-                last_name: Tamm
-                email: kristat@example.com
         ticket:
             title: Root Type for ticket
             description: ''
@@ -811,3 +792,69 @@ components:
                     type: string
             example:
                 message: Login successful
+        event:
+            title: Root Type for event
+            description: ''
+            type: object
+            properties:
+                event_id:
+                    format: int32
+                    type: integer
+                title:
+                    type: string
+                descriptrion:
+                    type: string
+                date:
+                    format: date
+                    type: string
+                time:
+                    type: string
+                price:
+                    type: string
+                location:
+                    type: string
+            example:
+                event_id: 34
+                title: Ürituse nimi
+                descriptrion: Ürituse kirjeldus
+                date: '2024-06-15'
+                time: '12:00'
+                price: '20'
+                location: Asukoht
+        user:
+            title: Root Type for user
+            description: ''
+            type: object
+            properties:
+                user_id:
+                    format: int32
+                    type: integer
+                first_name:
+                    type: string
+                last_name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+            example:
+                user_id: 42
+                first_name: Krista
+                last_name: Tamm
+                email: kristat@example.com
+                password: 1P1P1P1P1
+        login:
+            title: Root Type for login
+            description: ''
+            type: array
+            items:
+                type: object
+                properties:
+                    email:
+                        type: string
+                    password:
+                        type: string
+            example:
+                -
+                    email: user@example.com
+                    password: password12345

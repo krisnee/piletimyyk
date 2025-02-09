@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     );
-  
     console.log(Ticket === sequelize.models.Ticket);
     return Ticket;
   }

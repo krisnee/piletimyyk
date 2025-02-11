@@ -1,81 +1,68 @@
-  <script>
-  import { ref } from 'vue';
-  
-  // export default {
-  //   emits: ['event-added'],
-  //   setup(props, { emit }) {
-  //     const event = ref({
-  //       title: '',
-  //       description: '',
-  //       date: '',
-  //       time: '',
-  //       location: '',
-  //       price: ''
-  //     });
+<script>
+import { ref, defineEmits } from 'vue';
 
-  const event = ref({
-  title: '',
-  description: '',
-  date: '',
-  location: '',
-  price: 0,
-});
-// const submitEvent = () => {
-//   // Siin saate lisada loogika, et saata andmed serverisse
-//   console.log('Uus üritus:', event.value);
-//   // Siin saate kutsuda event-added sündmust
-// };
-  
-      const submitEvent = async () => {
-        await fetch('http://localhost:8080/events', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(event.value)
-        });
-        emit('event-added'); // Teata, et üritus on lisatud
-        event.value = { title: '', description: '', date: '', time: '', location: '', price: '' }; // Tühjenda vorm
-      };
-  
-      // return {
-      //   event,
-      //   submitEvent
-      // };
-    //}
-  //};
-  </script>
-  
-  <template>
-    <div class="event-form">
-        <form @submit.prevent="submitEvent">
-            <div>
-                <label for="title">Event title:</label>
-                <input id="title" v-model="event.title" placeholder="Event title" required />
-            </div>
-            <div>
-                <label for="description">Description:</label>
-                <input id="description" v-model="event.description" placeholder="Description" required></input>
-            </div>
-            <div>
-                <label for="date">Date:</label>
-                <input id="date" v-model="event.date" type="date" required />
-            </div>
-            <div>
-                <label for="time">Time:</label>
-                <input id="time" v-model="event.time" type="time" required />
-            </div>
-            <div>
-                <label for="location">Location:</label>
-                <input id="location" v-model="event.location" placeholder="Location" required />
-            </div>
-            <div>
-                <label for="price">Price:</label>
-                <input id="price" v-model="event.price" type="number" placeholder="Price" required />
-            </div>
-            <button type="submit">Add new event</button>
-        </form>
-    </div>
+export default {
+  emits: ['event-added'],
+  setup(props, { emit }) {
+    const event = ref({
+      title: '',
+      description: '',
+      date: '',
+      time: '',
+      location: '',
+      price: 0,
+    });
+
+    const submitEvent = async () => {
+      await fetch('http://localhost:8080/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(event.value),
+      });
+      emit('event-added'); // Teata, et üritus on lisatud
+      event.value = { title: '', description: '', date: '', time: '', location: '', price: 0 }; // Tühjenda vorm
+    };
+
+    return {
+      event,
+      submitEvent,
+    };
+  },
+};
+</script>
+
+<template>
+  <div class="event-form">
+    <form @submit.prevent="submitEvent">
+      <div>
+        <label for="title">Event title:</label>
+        <input id="title" v-model="event.title" placeholder="Event title" required />
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <input id="description" v-model="event.description" placeholder="Description" required />
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input id="date" v-model="event.date" type="date" required />
+      </div>
+      <div>
+        <label for="time">Time:</label>
+        <input id="time" v-model="event.time" type="time" required />
+      </div>
+      <div>
+        <label for="location">Location:</label>
+        <input id="location" v-model="event.location" placeholder="Location" required />
+      </div>
+      <div>
+        <label for="price">Price:</label>
+        <input id="price" v-model="event.price" type="number" placeholder="Price" required />
+      </div>
+      <button type="submit">Add new event</button>
+    </form>
+  </div>
 </template>
 
 <style scoped>

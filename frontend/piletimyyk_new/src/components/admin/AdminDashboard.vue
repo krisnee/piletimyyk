@@ -22,8 +22,8 @@ export default {
 </script>
 
 <template>
-  <main class="main">  
-    <div class="min-h-screen bg-gray-50 p-8">
+  <main>  
+    <div class="main">
       <h1 class="fade">Admin Dashboard</h1>
       <nav>
         <button class="button" @click="currentView = 'SummaryManagement'">Manage Summaries</button>

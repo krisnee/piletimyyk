@@ -177,3 +177,78 @@ main {
   left: 12px;
   color: #888;
 }
+.close {
+  cursor: pointer; /* Muuda kursor, et näidata, et see on klikitav */
+  float: right; /* Paiguta sulgemisnupp paremale */
+  font-size: 1.5rem; /* Suurenda sulgemisnupu suurust */
+
+}
+.close:hover {
+  color: grey; /* Heledam hover-efekt */
+}
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Tumeda tausta efekt */
+  z-index: 1000; /* Veendu, et see on üle teiste elementide */
+}
+.modal-content {
+  background-color: #E0F7FA;
+  padding: 20px;
+  border-radius: 8px; /* Nurgad on ümarad */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Varju efekt */
+  width: 400px; /* Saad muuta vastavalt vajadusele */
+}
+.modal2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Tumeda tausta efekt */
+  z-index: 1000; /* Veendu, et see on üle teiste elementide */
+}
+.modal2-content{
+  background-color: #E0F7FA;
+  margin-bottom: 40px; /* Lisa ruumi pealkirja ja sisu vahele */
+  padding: 20px;
+  border-radius: 8px; /* Nurgad on ümarad */
+  flex-direction: column; /* Veendu, et elemendid on vertikaalselt joondatud */
+}
+
+.edit-button,
+.delete-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #1ac94f;
+  color: white;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  opacity: 0.8;
+}
+
+
+/* TABLE STYLES */
+
+

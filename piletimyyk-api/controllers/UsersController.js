@@ -1,58 +1,62 @@
 const { db } = require("../db");
 const Utils = require("./utils");
-const { getBaseURL } = require("./utils"); // Lisa see rida
 
 exports.getAll = async (req, res) => {
     const users = await db.User.findAll();
-    console.log(users);
-    res.status(200).send(users.map(({ user_id, first_name, last_name }) => ({ user_id, first_name, last_name })));
+    res.status(200).send(users.map(({ user_id, first_name, last_name, email }) => ({ user_id, first_name, last_name, email })));
 }
 
 exports.getById = async (req, res) => {
-    const user = await getUser(req, res);
-    if (!user) { return; }
-    return res.send(user);
+    const user = await db.User.findByPk(req.params.id);
+    if (!user) {
+        return res.status(404).send({ error: "User not found" });
+    }
+    res.status(200).send(user);
 }
 
 exports.create = async (req, res) => {
-    if (!req.body.first_name || !req.body.last_name || !req.body.email) {
+    const { first_name, last_name, email, password } = req.body;
+    if (!first_name || !last_name || !email || !password) {
         return res.status(400).send({ error: "One or multiple parameters are missing" });
     }
-    let newUser = {
-        Firstname: req.body.first_name,
-        Lastname: req.body.last_name,
-        Email: req.body.email,
-    }
+    const newUser = { first_name, last_name, email, password };
     const createdUser = await db.User.create(newUser);
     res.status(201)
-        .location(`${Utils.getBaseURL(req)}/users/${createdUser.ID}`)
-        .send(createdUser.user_id);
+        .location(`${Utils.getBaseURL(req)}/users/${createdUser.user_id}`)
+        .send(createdUser);
 }
 
 exports.editById = async (req, res) => {
-    const user = await getUser(req, res);
-    if (!user) { return; }
-    if (!req.body.first_name || !req.body.last_name || !req.body.email) {
+    const user = await db.User.findByPk(req.params.id);
+    if (!user) {
+        return res.status(404).send({ error: "User not found" });
+    }
+    const { first_name, last_name, email } = req.body;
+    if (!first_name || !last_name || !email) {
         return res.status(400).send({ error: "One or multiple parameters are missing" });
     }
-    user.first_name = req.body.first_name;
-    user.last_name = req.body.last_name;
-    user.email = req.body.email;
+    user.first_name = first_name;
+    user.last_name = last_name;
+    user.email = email;
     await user.save();
-    res.status(201)
-        .location(`${Utils.getBaseURL(req)}/users/${user.user_id}`)
-        .send(user);
+    res.status(200).send(user);
 }
 
 exports.deleteById = async (req, res) => {
-    const user = await getUser(req, res);
-    if (!user) { return; }
+    const user = await db.User.findByPk(req.params.id);
+    if (!user) {
+        return res.status(404).send({ error: "User not found" });
+    }
     await user.destroy();
     res.status(204).send();
 }
+
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     // Kontrolli, kas email ja parool on õiged
-    // Tagasta vastus vastavalt tulemusele
-    console.log("Sisselogimise lõpp");
+    const user = await db.User.findOne({ where: { email, password } });
+    if (!user) {
+        return res.status(401).send({ message: "Invalid email or password" });
+    }
+    res.status(200).send({ message: "Login successful" });
 };

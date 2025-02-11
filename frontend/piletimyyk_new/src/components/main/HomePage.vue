@@ -7,7 +7,7 @@ const maxEvents = 3; // Määrake, kui palju üritusi kuvada
 <template>
   <div>
     <h1>Welcome to Piletimüük</h1>
-    <p>Siin saad hallata oma üritusi ja pileteid.</p>
+    <p>Find the best events in Estonia!</p>
 
     <h2>Popular events</h2>
     <EventsTable :maxEvents="maxEvents" />

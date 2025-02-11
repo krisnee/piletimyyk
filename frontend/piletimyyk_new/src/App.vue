@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 import AuthModal from './components/auth/AuthModal.vue';
 import { ref, onMounted, onUnmounted } from 'vue';
 
@@ -60,7 +60,6 @@ onUnmounted(() => {
   transform: translateY(-100%);
 }
 */
-
 .container {
   padding-top: 0.1rem; /* Jätab ruumi päise all */
 }

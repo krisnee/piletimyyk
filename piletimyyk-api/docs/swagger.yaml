@@ -445,7 +445,6 @@ paths:
                                         email: reelika@gmail.com
                                         first_name: Reelik
                                         last_name: Tamm
-                                        password: 2P2P2P2P2P2
                 required: true
             tags:
                 - users
@@ -463,7 +462,6 @@ paths:
                                             email: kalvoika@gmail.com
                                             first_name: Kalvi
                                             last_name: Kalle
-                                            password: 2P2P2P2P2P2
                     description: Returns the modified user to the user
                 '400':
                     content:

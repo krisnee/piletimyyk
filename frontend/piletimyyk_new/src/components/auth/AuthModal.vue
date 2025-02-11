@@ -8,6 +8,8 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      firstName: '', // Eesnimi
+      lastName: '', // Perekonnanimi
       isVisible: false,
       isLogin: true,
       error: null,
@@ -21,7 +23,7 @@ export default {
       this.isVisible = false; // Sulgeb hüpikakna
       this.resetForm(); // Lähtestab vormi, kui hüpikaken suletakse
     },
-    submitForm() {
+    async submitForm() {
       if (this.isLogin) {
         // Sisselogimise loogika
         if (!this.validateEmail(this.email)) {
@@ -45,9 +47,30 @@ export default {
           this.error = 'Passwords don\'t match.';
           return;
         }
-        alert(`Signing up with e-mail: ${this.email}, Password: ${this.password}`);
+        // Siin saad sa saata POST päringu uue kasutaja loomiseks
+        await this.registerUser();
       }
       this.closeModal();
+    },
+    async registerUser() {
+      const response = await fetch('http://localhost:8080/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email: this.email,
+          password: this.password,
+        }),
+      });
+
+      if (response.ok) {
+        alert('User registered successfully!');
+      } else {
+        this.error = 'Registration failed. Please try again.';
+      }
     },
     toggleMode() {
       this.isLogin = !this.isLogin; // Vahetab režiimi
@@ -57,6 +80,8 @@ export default {
       this.email = '';
       this.password = '';
       this.confirmPassword = '';
+      this.firstName = ''; // Lähtesta eesnimi
+      this.lastName = ''; // Lähtesta perekonnanimi
       this.error = null;
     },
     validateEmail(email) {
@@ -68,32 +93,39 @@ export default {
 </script>
 
 <template>
-    <div v-if="isVisible" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeModal">&times;</span>
-        <h2 class="card-header">{{ isLogin ? 'Log In' : 'Sign Up' }}</h2>
-        <form @submit.prevent="submitForm" class="card-body">
-          <div class="form-group mb-3">
-            <input type="email" v-model="email" class="form-control" placeholder="Enter your e-mail address" required />
-          </div>
-          <div class="form-group mb-3" v-if="!isLogin">
-            <input type="password" v-model="password" class="form-control" placeholder="Create a password" required />
-          </div>
-          <div class="form-group mb-3" v-if="!isLogin">
-            <input type="password" v-model="confirmPassword" class="form-control" placeholder="Confirm your password" required />
-          </div>
-          <div class="form-group mb-3" v-if="isLogin">
-            <input type="password" v-model="password" class="form-control" placeholder="Enter your password" required />
-          </div>
-          <button type="submit" class="btn btn-secondary w-100">{{ isLogin ? 'Log In' : 'Sign Up' }}</button>
-          <p v-if="error" class="text-danger mt-3 text-center">{{ error }}</p>
-        </form>
-        <p @click="toggleMode" class="toggle-mode">
-          {{ isLogin ? 'Don\'t have an account? Sign up' : 'Already have an account? Log in' }}
-        </p>
-      </div>
+  <div v-if="isVisible" class="modal">
+    <div class="modal-content">
+      <span class="close" @click="closeModal">&times;</span>
+      <h2 class="card-header">{{ isLogin ? 'Log In' : 'Sign Up' }}</h2>
+      <form @submit.prevent="submitForm" class="card-body">
+
+        <div class="form-group mb-3" v-if="!isLogin">
+          <input type="text" v-model="firstName" class="form-control" placeholder="First Name" required />
+        </div>
+        <div class="form-group mb-3" v-if="!isLogin">
+          <input type="text" v-model="lastName" class="form-control" placeholder="Last Name" required />
+        </div>
+        <div class="form-group mb-3">
+          <input type="email" v-model="email" class="form-control" placeholder="Enter your e-mail address" required />
+        </div>
+        <div class="form-group mb-3" v-if="!isLogin">
+          <input type="password" v-model="password" class="form-control" placeholder="Create a password" required />
+        </div>
+        <div class="form-group mb-3" v-if="!isLogin">
+          <input type="password" v-model="confirmPassword" class="form-control" placeholder="Confirm your password" required />
+        </div>
+        <div class="form-group mb-3" v-if="isLogin">
+          <input type="password" v-model="password" class="form-control" placeholder="Enter your password" required />
+        </div>
+        <button type="submit" class="btn btn-secondary w-100">{{ isLogin ? 'Log In' : 'Sign Up' }}</button>
+        <p v-if="error" class="text-danger mt-3 text-center">{{ error }}</p>
+      </form>
+      <p @click="toggleMode" class="toggle-mode">
+        {{ isLogin ? 'Don\'t have an account? Sign up' : 'Already have an account? Log in' }}
+      </p>
     </div>
-  </template>
+  </div>
+</template>
   
   <style scoped>
   .container {
@@ -132,33 +164,8 @@ export default {
   .text-danger {
       color: red;
   }
-  .modal {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Tumeda tausta efekt */
-      z-index: 1000; /* Veendu, et see on üle teiste elementide */
-  }
-  .modal-content {
-      background-color: #E0F7FA;
-      padding: 20px;
-      border-radius: 8px; /* Nurgad on ümarad */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Varju efekt */
-      width: 400px; /* Saad muuta vastavalt vajadusele */
-  }
-  .close {
-      cursor: pointer; /* Muuda kursor, et näidata, et see on klikitav */
-      float: right; /* Paiguta sulgemisnupp paremale */
-      font-size: 1.5rem; /* Suurenda sulgemisnupu suurust */
-  }
-  .close:hover {
-      color: grey; /* Heledam hover-efekt */
-  }
+
+
   .toggle-mode {
       color: #007bff;
       cursor: pointer;

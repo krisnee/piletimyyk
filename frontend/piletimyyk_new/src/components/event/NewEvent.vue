@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { ref } from 'vue';
 import EventForm from './EventForm.vue';
 
@@ -65,4 +65,4 @@ const fetchEvents = async () => {
   cursor: pointer;
   float: right;
 }
-</style>
+</style> -->

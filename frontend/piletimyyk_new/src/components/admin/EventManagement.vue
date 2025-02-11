@@ -1,63 +1,52 @@
 <script>
 import { ref, onMounted } from 'vue';
-import EventForm from '../event/EventForm.vue'; // Kui EventManagement.vue on admin kaustas
-//import NewEvent from '../event/NewEvent.vue'; // Kui EventManagement.vue on admin kaustas
-//import EventModal from '../event/EventModal.vue';
+import EventForm from '../event/EventForm.vue';
 
-// export default {
-//   components: {
-//     EventForm,
-//    // NewEvent,
-//   },
-//   data() {
-//     return {
-//       events: [],
-//     };
-//   },
-//   methods: {
-//     async fetchEvents() {
-//       const response = await fetch('http://localhost:8080/events');
-//       this.events = await response.json();
-//       console.log(events.value);
-//     },
-//     async deleteEvent(event_id) {
-//       await fetch(`http://localhost:8080/events/${event_id}`, {
-//         method: 'DELETE',
-//       });
-//       this.fetchEvents(); // Uuendage ürituste loendit
-      
-//     },
-//   },
-//   mounted() {
-//     this.fetchEvents();
-//   },
-// };
-const isModalOpen = ref(false);
-const events = ref([]); // Ürituste loend
+export default {
+  components: { EventForm },
+  setup() {
+    const isModalOpen = ref(false);
+    const events = ref([]);
 
-const openModal = () => {
-  isModalOpen.value = true;
+    const openModal = () => {
+      isModalOpen.value = true;
+    };
+
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+
+    const fetchEvents = async () => {
+      const response = await fetch('http://localhost:8080/events');
+      events.value = await response.json();
+    };
+
+     const editEvent = (event) => {
+       selectedEvent.value = event; // Määra valitud üritus
+       openModal(); // Ava modaalaken
+     };
+
+    // const deleteEvent = async (event_id) => {
+    //   await fetch(`http://localhost:8080/events/${event_id}`, {
+    //     method: 'DELETE',
+    //   });
+    //   fetchEvents(); // Uuenda ürituste loend
+    // };
+
+    onMounted(fetchEvents);
+
+    return {
+      isModalOpen,
+      openModal,
+      closeModal,
+      events,
+      fetchEvents,
+       editEvent,
+      // deleteEvent,
+      // selectedEvent,
+    };
+  },
 };
-
-const closeModal = () => {
-  isModalOpen.value = false;
-};
-
-const handleEventAdded = () => {
-  fetchEvents(); // Uuenda ürituste loend
-};
-
-const fetchEvents = async () => {
-  const response = await fetch('http://localhost:8080/events');
-  const data = await response.json();
-  events.value = data; // Uuenda ürituste loend
-};
-
-// Laadige ürituste loend, kui komponent on mountitud
-onMounted(() => {
-  fetchEvents();
-});
-
 </script>
 
 <template>
@@ -65,9 +54,10 @@ onMounted(() => {
     <h2>Event Management</h2>
     <button class="add-event-button" @click="openModal">Add new event</button>
 
-    <div class="modal" v-if="isModalOpen">
-      <div class="modal-content">
+    <div class="modal2" v-if="isModalOpen">
+      <div class="modal2-content">
         <span class="close" @click="closeModal">&times;</span>
+        <h2>Event details</h2>
         <EventForm @event-added="handleEventAdded" />
       </div>
     </div>
@@ -76,21 +66,22 @@ onMounted(() => {
       <table class="events-table">
         <thead>
           <tr>
-            <th>Ürituse nimi</th>
-            <th>Kuupäev</th>
-            <th>Müüdud/Kokku</th>
-            <th>Staatus</th>
-            <th>Tegevused</th>
+            <th>Evenet title</th>
+            <th>Date</th>
+            <th>Sold/Total</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="event in events" :key="event.id">
+          <tr v-for="event in events" :key="event.event_id">
             <td>{{ event.title }}</td>
             <td>{{ event.date }}</td>
             <td>{{ event.sold }}/{{ event.total }}</td>
             <td>{{ event.status }}</td>
             <td>
-              <!-- Tegevused, nt Muuda ja Kustuta nupud -->
+            <button class="edit-button" @click="editEvent (event)">Edit</button>
+            <button class="delete-button" @click="deleteEvent(event.event_id)">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -118,7 +109,8 @@ h2 {
 
 .add-event-button {
   margin-bottom: 20px;
-  padding: 10px 20px;
+  padding: 10px 20px; /* Väiksem padding */
+  font-size: 14px; /* Väiksem font */
   background-color: #007bff;
   color: white;
   border: none;
@@ -162,7 +154,7 @@ h2 {
 }
 
 .edit-button {
-  background-color: #007bff;
+  background-color: #1ac94f;
   color: white;
 }
 

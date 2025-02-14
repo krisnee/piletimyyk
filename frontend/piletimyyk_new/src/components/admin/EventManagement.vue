@@ -26,12 +26,12 @@ export default {
        openModal(); // Ava modaalaken
      };
 
-    // const deleteEvent = async (event_id) => {
-    //   await fetch(`http://localhost:8080/events/${event_id}`, {
-    //     method: 'DELETE',
-    //   });
-    //   fetchEvents(); // Uuenda ürituste loend
-    // };
+     const deleteEvent = async (event_id) => {
+       await fetch(`http://localhost:8080/events/${event_id}`, {
+         method: 'DELETE',
+       });
+       fetchEvents(); // Uuenda ürituste loend
+     };
 
     onMounted(fetchEvents);
 
@@ -41,8 +41,8 @@ export default {
       closeModal,
       events,
       fetchEvents,
-       editEvent,
-      // deleteEvent,
+      editEvent,
+      deleteEvent,
       // selectedEvent,
     };
   },

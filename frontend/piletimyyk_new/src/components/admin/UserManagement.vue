@@ -1,4 +1,3 @@
-
 <script>
 import UserForm from '../auth/UserForm.vue';
 import Notification from '../main/Notification.vue';
@@ -13,67 +12,52 @@ export default {
       notificationVisible: false,
       notificationMessage: '',
       notificationType: 'success',
+      users: [],
+      selectedUser: null,
+      isModalOpen: false,
     };
   },
   methods: {
     showSuccess() {
-      this.notificationMessage = 'Kasutaja on muudetud!';
+      this.notificationMessage = 'User has been changed!';
       this.notificationType = 'success';
       this.notificationVisible = true;
+
       setTimeout(() => {
         this.notificationVisible = false;
       }, 3000);
     },
     showError() {
-      this.notificationMessage = 'Kasutaja kustutamine ebaõnnestus!';
+      this.notificationMessage = 'User deletion failed!';
       this.notificationType = 'error';
       this.notificationVisible = true;
+
       setTimeout(() => {
         this.notificationVisible = false;
       }, 3000);
     },
-  },
-  setup() {
-    const toast = useToast(); // Impordi toast
-    const users = ref([]);
-    const selectedUser = ref(null);
-    const isModalOpen = ref(false);
-
-    const fetchUsers = async () => {
-      const response = await fetch('http://localhost:8080/users');
-      users.value = await response.json();
-    };
-
-    const deleteUser = async (user_id) => {
+    closeModal() {
+      this.isModalOpen = false; // Sulge modaalaken
+      this.selectedUser = null; // Tühjenda valitud kasutaja
+    },
+    editUser(user) {
+      this.selectedUser = user; // Määra valitud kasutaja
+      this.isModalOpen = true; // Ava modaalaken
+    },
+    async deleteUser(user_id) {
       await fetch(`http://localhost:8080/users/${user_id}`, {
         method: 'DELETE',
       });
-      fetchUsers();
-      toast.success('User is successfully deleted!'); // Teavitus kustutamise kohta
-    };
-
-    const editUser = (user) => {
-      selectedUser.value = user; // Määra valitud kasutaja
-      isModalOpen.value = true; // Ava modaalaken
-    };
-
-    const closeModal = () => {
-      isModalOpen.value = false; // Sulge modaalaken
-      selectedUser.value = null; // Tühjenda valitud kasutaja
-    };
-
-    // Fetch users on mount
-    onMounted(fetchUsers);
-
-    return {
-      users,
-      selectedUser,
-      isModalOpen,
-      fetchUsers,
-      deleteUser,
-      editUser,
-      closeModal,
-    };
+      await this.fetchUsers();
+      this.showSuccess(); // Kasuta oma teavitust
+    },
+    async fetchUsers() {
+      const response = await fetch('http://localhost:8080/users');
+      this.users = await response.json();
+    },
+  },
+  mounted() {
+    this.fetchUsers(); // Laadi kasutajad
   },
 };
 </script>
@@ -81,10 +65,10 @@ export default {
 <template>
   <div class="main">
     <h2>User Management</h2>
-    <UserForm @user-updated="fetchUsers" :user="selectedUser" v-if="isModalOpen" @close="closeModal" />
+    <UserForm v-if="isModalOpen" @user-updated="fetchUsers" :user="selectedUser" @close="closeModal" />
     
     <div class="table-container">
-      <table class="users-table">
+      <table class="users-table" v-if="users.length > 0">
         <thead>
           <tr>
             <th>User ID</th>
@@ -103,14 +87,16 @@ export default {
             <td>
               <button class="edit-button" @click="editUser(user)">Edit</button>
               <button  class="delete-button" @click="deleteUser(user.user_id)">Delete</button>
-              <button @click="showSuccess">Show Success</button>
-    <button @click="showError">Show Error</button>
-    <Notification v-if="notificationVisible" :message="notificationMessage" :type="notificationType" />
+
             </td>
           </tr>
         </tbody>
       </table>
+        <div v-else>
+        <p>No users found.</p>
+        </div>
     </div>
+    <Notification v-if="notificationVisible" :message="notificationMessage" :type="notificationType" />
   </div>
 </template>
 

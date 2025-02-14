@@ -132,9 +132,9 @@ main {
 .button:hover {
   background-color: #0056b3;
 }
-  .button-primary {
-    /* Peamise nupu stiilid */
-  }
+ /* .button-primary {
+     Peamise nupu stiilid
+  } */
 
   .button-secondary {
     /* Teisese nupu stiilid */

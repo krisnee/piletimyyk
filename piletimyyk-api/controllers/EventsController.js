@@ -30,3 +30,30 @@ exports.getById = async (req, res) => {
         res.status(404).send({ error: error.message });
     }
 };
+
+// Create a new event
+exports.create = async (req, res) => {
+    const { title, description, date, time, price, location } = req.body;
+
+    // Kontrolli, kas kõik nõutavad väljad on olemas
+    if (!title || !date || !time || price == null || !location) {
+        return res.status(400).send({ error: 'Required fields are missing' });
+    }
+
+    try {
+        const newEvent = {
+            title,
+            description,
+            date,
+            time,
+            price,
+            location,
+        };
+
+        // Loo uus üritus andmebaasis
+        const createdEvent = await db.Event.create(newEvent);
+        res.status(201).json({ event_id: createdEvent.event_id, message: 'Event created successfully' });
+    } catch (error) {
+        res.status(400).send({ error: 'Something went wrong while creating the event' });
+    }
+};

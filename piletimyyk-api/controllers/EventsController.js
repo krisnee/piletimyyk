@@ -13,3 +13,20 @@ exports.getAll = async (req, res) => {
         res.status(500).send({ error: 'Internal server error' });
     }
 };
+
+// Get event by ID
+exports.getById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).send({ error: "Event ID is required" });
+        }
+        const event = await findEventById(req);
+        if (!event) {
+            return;
+        }
+        res.status(200).json(event);
+    } catch (error) {
+        res.status(404).send({ error: error.message });
+    }
+};

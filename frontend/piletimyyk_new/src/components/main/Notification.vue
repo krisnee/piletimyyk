@@ -1,10 +1,3 @@
-<template>
-  <div v-if="visible" class="notification" :class="type">
-    <span>{{ message }}</span>
-    <button @click="close">X</button>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -26,6 +19,13 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div v-if="visible" class="notification" :class="type">
+    <span>{{ message }}</span>
+    <button @click="close">X</button>
+  </div>
+</template>
 
 <style scoped>
 .notification {

@@ -57,3 +57,30 @@ exports.create = async (req, res) => {
         res.status(400).send({ error: 'Something went wrong while creating the event' });
     }
 };
+
+// Update an event
+exports.editById = async (req, res) => {
+    try {
+        const event = await findEventById(req);
+
+        if (!event) {
+            return res.status(404).send({ error: 'Event not found' });
+        }
+
+        const { title, description, date, time, price, location } = req.body;
+
+        if (!title && !description && !date && !time && price == null && !location) {
+            return res.status(400).send({ error: 'At least one field must be updated' });
+        }
+
+        // Update event data
+        Object.assign(event, { title, description, date, time, price, location });
+
+        // Save the updated event to the database
+        await event.save();
+
+        res.status(200).json({ message: 'Event updated successfully', event });
+    } catch {
+        res.status(400).send({ error: 'Something went wrong while updating the event' });
+    }
+};

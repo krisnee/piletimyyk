@@ -60,7 +60,7 @@ export default {
         <label for="price">Price:</label>
         <input id="price" v-model="event.price" type="number" placeholder="Price" required />
       </div>
-      <button type="submit">Add new event</button>
+      <button @click="closeModal" type="submit">Add new event</button>
     </form>
   </div>
 </template>

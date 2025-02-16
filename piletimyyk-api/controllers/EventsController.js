@@ -84,3 +84,37 @@ exports.editById = async (req, res) => {
         res.status(400).send({ error: 'Something went wrong while updating the event' });
     }
 };
+
+// Delete an event
+exports.deleteById = async (req, res) => {
+    // Ensure the user is an admin
+    if (!req.user || req.user.role !== 'admin') {
+        return res.status(400).send({ error: 'Ainult administraatorid saavad kustutada üritusi' });
+    }
+
+    try {
+        const event = await findEventById(req);
+        if (!event) {
+            return;  // If no event is found, exit early
+        }
+        await event.destroy(); // Destroy the event from the database
+        res.status(204).send(); // Send the appropriate HTTP status (No Content)
+    } catch (error) {
+        res.status(404).send({ error: error.message }); // Handle any errors
+    }
+};
+
+// Helper function to find event by ID
+const findEventById = async (req) => {
+    const idNumber = parseInt(req.params.id, 10); // Ensure parsing the id as an integer
+    if (isNaN(idNumber)) {
+        res.status(400).send({ error: `Vale ürituse ID ${req.params.id}` });
+        return null;  // Return null if the ID is invalid
+    }
+    const event = await db.Event.findByPk(idNumber); // Retrieve the event using the primary key
+    if (!event) {
+        res.status(404).send({ error: "Üritust ei leitud" });
+        return null;  // Return null if no event is found
+    }
+    return event;  // Return the event if found
+};

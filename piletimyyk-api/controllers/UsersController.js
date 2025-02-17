@@ -23,3 +23,18 @@ exports.create = async (req, res) => {
         .location(${Utils.getBaseURL(req)}/users/${createdUser.user_id})
         .send(createdUser);
 }
+exports.editById = async (req, res) => {
+    const user = await db.User.findByPk(req.params.id);
+    if (!user) {
+        return res.status(404).send({ error: "User not found" });
+    }
+    const { first_name, last_name, email } = req.body;
+    if (!first_name || !last_name || !email) {
+        return res.status(400).send({ error: "One or multiple parameters are missing" });
+    }
+    user.first_name = first_name;
+    user.last_name = last_name;
+    user.email = email;
+    await user.save();
+    res.status(200).send(user);
+}

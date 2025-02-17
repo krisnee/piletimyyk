@@ -20,6 +20,6 @@ exports.create = async (req, res) => {
     const newUser = { first_name, last_name, email, password };
     const createdUser = await db.User.create(newUser);
     res.status(201)
-        .location(${Utils.getBaseURL(req)}/users/${createdUser.user_id})
+        .location(`${Utils.getBaseURL(req)}/users/${createdUser.user_id}`)
         .send(createdUser);
 }

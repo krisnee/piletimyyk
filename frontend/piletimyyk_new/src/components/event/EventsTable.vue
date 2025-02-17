@@ -119,6 +119,5 @@ const formatEventTime = (timeString) => {
   justify-content: space-between; /* Jagame sisu ühtlaselt */
   border: 1.1px solid #ccc; /* Piirjoon */
   border-radius: 20px; /* Ümaramad ääred */
-  shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Lisa kerge vari */
 }
 </style>

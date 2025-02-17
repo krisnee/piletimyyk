@@ -12,3 +12,14 @@ exports.getById = async (req, res) => {
     }
     res.status(200).send(user);
 }
+exports.create = async (req, res) => {
+    const { first_name, last_name, email, password } = req.body;
+    if (!first_name || !last_name || !email || !password) {
+        return res.status(400).send({ error: "One or multiple parameters are missing" });
+    }
+    const newUser = { first_name, last_name, email, password };
+    const createdUser = await db.User.create(newUser);
+    res.status(201)
+        .location(${Utils.getBaseURL(req)}/users/${createdUser.user_id})
+        .send(createdUser);
+}

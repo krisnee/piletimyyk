@@ -46,3 +46,11 @@ exports.deleteById = async (req, res) => {
     await user.destroy();
     res.status(204).send();
 }
+exports.loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await db.User.findOne({ where: { email, password } });
+    if (!user) {
+        return res.status(401).send({ message: "Invalid email or password" });
+    }
+    res.status(200).send({ message: "Login successful" });
+};

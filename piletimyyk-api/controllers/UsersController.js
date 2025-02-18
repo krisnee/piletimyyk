@@ -38,3 +38,11 @@ exports.editById = async (req, res) => {
     await user.save();
     res.status(200).send(user);
 }
+exports.deleteById = async (req, res) => {
+    const user = await db.User.findByPk(req.params.id);
+    if (!user) {
+        return res.status(404).send({ error: "User not found" });
+    }
+    await user.destroy();
+    res.status(204).send();
+}

@@ -35,8 +35,23 @@ db.sequelize = sequelize;
 
 // Siin saad importida oma mudelid
 db.Event = require('./models/Event')(sequelize, DataTypes);
-db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
 db.User = require('./models/User')(sequelize, DataTypes);
+db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
+
+
+db.Event.hasMany(db.Ticket /* { foreignKey: 'event_id', as: 'tickets' } */);
+db.User.hasMany(db.Ticket /*  { foreignKey: 'user_id', as: 'tickets' } */);
+
+db.Event.belongsToMany(db.User, { through: db.Ticket });
+
+
+// db.Ticket.belongsTo(db.Event /* { foreignKey: 'event_id', as: 'event_id' } */);
+// db.Ticket.belongsTo(db.User /* { foreignKey: 'user_id', as: 'user_id' } */);
+// db.Ticket.hasOne(() => db.User, user_id, 'user_id')
+// declare User?: NonAttribute<User>;
+// }
+
+
 
 // Mudelite sünkroniseerimine
 const sync = async () => {

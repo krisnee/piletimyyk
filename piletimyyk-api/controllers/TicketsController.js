@@ -9,12 +9,12 @@ exports.getAll = async (req, res) => {
                 {
                     model: db.User,
                     as: "user",
-                    attributes: ["user_id", "first_name", "last_name", "email"],
+                    attributes: ["UserUserId", "first_name", "last_name", "email"],
                 },
                 {
                     model: db.Event,
                     as: "event",
-                    attributes: ["event_id", "title", "description", "date", "time", "price", "location"],
+                    attributes: ["EventEventId", "title", "description", "date", "time", "price", "location"],
                 },
             ],
         });
@@ -48,7 +48,7 @@ exports.getById = async (req, res) => {
 
 // Create a new ticket
 exports.create = async (req, res) => {
-    const { event_id, user_id, quantity } = req.body;
+    const { event_id, user_id, quantity, purchase_date} = req.body;
 
     if (!event_id || !user_id || !quantity) {
         return res.status(400).send({ error: 'Puuduvad vajalikud väljad' });
@@ -61,8 +61,12 @@ exports.create = async (req, res) => {
         if (!event || !user) {
             return res.status(404).send({ error: 'Üritust või kasutajat ei leitud' });
         }
-
-        const newTicket = await db.Ticket.create({ event_id, user_id, quantity, purchase_date: new Date() });
+        var newTicket = {};
+        newTicket.EventEventId = event_id;
+        newTicket.UserUserId = user_id;
+        newTicket.purchase_date = purchase_date;
+        
+        newTicket = await db.Ticket.create({ EventEventId, UserUserId, quantity, purchase_date: new Date() });
 
         res.status(201).json({ ticket_id: newTicket.ticket_id, message: 'Pilet loodud edukalt' });
     } catch (error) {
@@ -81,8 +85,8 @@ exports.editById = async (req, res) => {
             return res.status(404).send({ error: 'Piletit ei leitud' });
         }
 
-        ticket.event_id = event_id || ticket.event_id;
-        ticket.user_id = user_id || ticket.user_id;
+        ticket.EventEventId = event_id || ticket.EventEventId;
+        ticket.UserUserId = user_id || ticket.UserUserId;
         ticket.quantity = quantity || ticket.quantity;
         await ticket.save();
 

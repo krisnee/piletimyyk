@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            event_id: {
+/*             event_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'Events',
+                    model: "Event",
                     key: 'event_id'
                 }
             },
@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: true,
                 references: {
-                    model: 'Users',
+                    model: "User",
                     key: 'user_id'
                 }
-            },
+            }, */
             quantity: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             purchase_date: {
                 type: DataTypes.DATE,
+                allowNull: true,
                 defaultValue: DataTypes.NOW,
             }
         }

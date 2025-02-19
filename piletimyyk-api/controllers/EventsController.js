@@ -52,6 +52,13 @@ exports.create = async (req, res) => {
 
         // Loo uus üritus andmebaasis
         const createdEvent = await db.Event.create(newEvent);
+        const forTicket = createdEvent.event_id;
+        try { 
+            await createTicketforEvent( forTicket, quantity = 69);
+        }
+        catch (error) {
+            console.error('Error creating ticket for event:', error);
+        }
         res.status(201).json({ event_id: createdEvent.event_id, message: 'Event created successfully' });
     } catch (error) {
         res.status(400).send({ error: 'Something went wrong while creating the event' });
@@ -112,4 +119,9 @@ const findEventById = async (req) => {
         return null;  // Return null if no event is found
     }
     return event;  // Return the event if found
+};
+
+// Helper function
+const createTicketforEvent = async (event_id, quantity, user_id=1) => {
+    const ticket = await db.Ticket.create({ event_id, quantity, user_id});
 };

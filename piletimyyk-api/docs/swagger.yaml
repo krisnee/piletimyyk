@@ -462,6 +462,7 @@ paths:
                                             email: kalvoika@gmail.com
                                             first_name: Kalvi
                                             last_name: Kalle
+                                            password: 2P2P2P2P2P2
                     description: Returns the modified user to the user
                 '400':
                     content:

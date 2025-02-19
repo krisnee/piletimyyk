@@ -1,6 +1,7 @@
 <script>
 import EventManagement from './EventManagement.vue';
 import UserManagement from './UserManagement.vue';
+import TicketTable from './TicketTable.vue';
 
 export default {
   data() {
@@ -12,6 +13,7 @@ export default {
     currentViewComponent() {
       return {
         EventManagement,
+        TicketTable,
         UserManagement,
       }[this.currentView];
     },
@@ -38,6 +40,13 @@ export default {
           @click="currentView = 'UserManagement'"
         >
           Manage Users
+        </button>
+        <button 
+          class="nav-button"
+          :class="{ active: currentView === 'TicketTable' }"
+          @click="currentView = 'TicketTable'"
+        >
+          Manage tickets
         </button>
       </nav>
     </div>

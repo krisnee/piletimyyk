@@ -5,7 +5,7 @@ const Utils = require("./utils");
 exports.getAll = async (req, res) => {
     try {
         const tickets = await db.Ticket.findAll({
-            include: [
+            /* include: [
                 {
                     model: db.User,
                     as: "user",
@@ -15,8 +15,8 @@ exports.getAll = async (req, res) => {
                     model: db.Event,
                     as: "event",
                     attributes: ["EventEventId", "title", "description", "date", "time", "price", "location"],
-                },
-            ],
+                }, */
+            /* ], */
         });
         res.status(200).json(tickets);
     } catch (error) {

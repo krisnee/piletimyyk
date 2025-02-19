@@ -39,8 +39,8 @@ db.User = require('./models/User')(sequelize, DataTypes);
 db.Ticket = require('./models/Ticket')(sequelize, DataTypes);
 
 
-db.Event.hasMany(db.Ticket /* { foreignKey: 'event_id', as: 'tickets' } */);
-db.User.hasMany(db.Ticket /*  { foreignKey: 'user_id', as: 'tickets' } */);
+db.Event.hasMany(db.Ticket,  { foreignKey: 'event_id', as: 'tickets' } );
+db.User.hasMany(db.Ticket,  { foreignKey: 'user_id', as: 'tickets' } );
 
 db.Event.belongsToMany(db.User, { through: db.Ticket });
 

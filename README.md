@@ -5,7 +5,7 @@ Ticket sales application that allows users to purchase and manage tickets.
 
 ## How to run
 1. Open terminal in project folder
-2. Use command npm start to run backend and frontend simultaneously
+2. Use command `npm start` to run backend and frontend simultaneously
 
 ## Technologies
 - **Node.js**: For server-side development.

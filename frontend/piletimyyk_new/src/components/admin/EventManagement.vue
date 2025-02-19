@@ -5,6 +5,7 @@ import EventForm from '../event/EventForm.vue';
 const isModalOpen = ref(false);
 const events = ref([]);
 const selectedEvent = ref(null);
+const isEditMode = ref(false); // Lisa see rida!
 
 const openModal = () => {
   isModalOpen.value = true;
@@ -13,6 +14,7 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false;
   selectedEvent.value = null;
+  isEditMode.value = false; // Lähtesta edit mode
 };
 
 const fetchEvents = async () => {
@@ -42,9 +44,15 @@ const formattedEvents = computed(() => {
 
 // Edit funktsioon
 const editEvent = (event) => {
-  selectedEvent.value = event; // Määra valitud sündmus
-  isEditMode.value = true; // Muuda režiim redigeerimiseks
-  openModal(); // Ava modaalaken
+  selectedEvent.value = event;
+  isEditMode.value = true; // Määra edit mode
+  openModal();
+};
+
+const addNewEvent = () => {
+  selectedEvent.value = null;
+  isEditMode.value = false;
+  openModal();
 };
 
 // Delete funktsioon
@@ -79,7 +87,7 @@ onMounted(fetchEvents);
   <h2>Event Management</h2>
   <div class="management-container">
     <div class="content-wrapper">
-      <button class="add-event-button" @click="openModal">Add new event</button>
+      <button class="add-event-button" @click="addNewEvent">Add new event</button>
     </div>
 
     <div class="table-container">
@@ -100,8 +108,10 @@ onMounted(fetchEvents);
             <td>{{ event.sold }}/{{ event.total }}</td>
             <td>{{ event.status || 'N/A' }}</td>
             <td>
-              <button class="edit-button" @click="editEvent(event)">Edit</button>
-              <button class="delete-button" @click="deleteEvent(event.event_id)">Delete</button>
+              <div class="action-buttons">
+                <button class="edit-button" @click="editEvent(event)">Edit</button>
+                <button class="delete-button" @click="deleteEvent(event.event_id)">Delete</button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -116,6 +126,8 @@ onMounted(fetchEvents);
         </div>
         <EventForm 
           :event="selectedEvent"
+          :isEditMode="isEditMode"
+          @close="closeModal"
           @event-added="fetchEvents"
           @event-updated="fetchEvents"
         />

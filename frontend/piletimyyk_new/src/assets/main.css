@@ -248,6 +248,10 @@ a,
   opacity: 0.8;
 } 
 
+.action-buttons {
+  display: flex;
+  gap: 8px;  /* Lisab 8px vahe nuppude vahele */
+}
 
 /* TABLE STYLES */
 

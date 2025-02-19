@@ -1,7 +1,9 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import AuthModal from './components/auth/AuthModal.vue';
+import LogOut from './components/auth/LogOut.vue';
 import { ref, onMounted, onUnmounted } from 'vue';
+
 
 const authModalRef = ref(null); // Muuda see null-ks
 const error = ref(null);
@@ -44,6 +46,7 @@ onUnmounted(() => {
         <RouterLink class="nav-link" to="/about">About</RouterLink>
         <button class="nav-button" @click="showAuthModal">Log In / Register</button>
         <RouterLink class="nav-link" to="/admin">Admin Panel</RouterLink>
+        <LogOut />
       </nav>
         <p v-if="error" class="text-danger">{{ error }}</p>
     </div>

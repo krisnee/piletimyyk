@@ -85,10 +85,11 @@ export default {
             <td>{{ user.last_name }}</td>
             <td>{{ user.email }}</td>
             <td>
+            <div class="action-buttons">
               <button class="edit-button" @click="editUser(user)">Edit</button>
-              <button  class="delete-button" @click="deleteUser(user.user_id)">Delete</button>
-
-            </td>
+              <button class="delete-button" @click="deleteUser(user.user_id)">Delete</button>
+            </div>
+           </td>
           </tr>
         </tbody>
       </table>

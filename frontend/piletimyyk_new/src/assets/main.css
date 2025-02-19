@@ -108,13 +108,13 @@ a,
 /* ------------------------- */
 
 /* Main Layout */
-main {
+ main {
   margin-top: 5rem;
   max-width: 3000px;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-}
+  
+} 
 
 /* BUTTON STYLES */
 .button {
@@ -225,7 +225,7 @@ main {
   flex-direction: column; /* Veendu, et elemendid on vertikaalselt joondatud */
 }
 
-.edit-button,
+ .edit-button,
 .delete-button {
   padding: 5px 10px;
   border: none;
@@ -246,7 +246,7 @@ main {
 .edit-button:hover,
 .delete-button:hover {
   opacity: 0.8;
-}
+} 
 
 
 /* TABLE STYLES */

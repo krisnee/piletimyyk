@@ -5,8 +5,8 @@ const Utils = require("./utils");
 exports.getAll = async (req, res) => {
     try {
         const events = await db.Event.findAll(); // Fetch data from the database
-        res.status(200).json(events.map(({title, description, date, time, price, location }) => ({
-            title, description, date, time, price, location
+        res.status(200).json(events.map(({event_id, title, description, date, time, price, location }) => ({
+           event_id, title, description, date, time, price, location
         })));
     } catch (error) {
         console.error('Error fetching event data:', error);
@@ -87,20 +87,15 @@ exports.editById = async (req, res) => {
 
 // Delete an event
 exports.deleteById = async (req, res) => {
-    // Ensure the user is an admin
-    if (!req.user || req.user.role !== 'admin') {
-        return res.status(400).send({ error: 'Ainult administraatorid saavad kustutada üritusi' });
-    }
-
     try {
         const event = await findEventById(req);
         if (!event) {
-            return;  // If no event is found, exit early
+            return res.status(404).send({ error: 'Event not found' });
         }
-        await event.destroy(); // Destroy the event from the database
-        res.status(204).send(); // Send the appropriate HTTP status (No Content)
+        await event.destroy(); // Kustuta sündmus andmebaasist
+        res.status(204).send(); // Saada sobiv HTTP staatus (No Content)
     } catch (error) {
-        res.status(404).send({ error: error.message }); // Handle any errors
+        res.status(404).send({ error: error.message }); // Käsitle vigu
     }
 };
 
@@ -108,12 +103,12 @@ exports.deleteById = async (req, res) => {
 const findEventById = async (req) => {
     const idNumber = parseInt(req.params.id, 10); // Ensure parsing the id as an integer
     if (isNaN(idNumber)) {
-        res.status(400).send({ error: `Vale ürituse ID ${req.params.id}` });
+        res.status(400).send({ error: `Wrong event ID ${req.params.id}` });
         return null;  // Return null if the ID is invalid
     }
     const event = await db.Event.findByPk(idNumber); // Retrieve the event using the primary key
     if (!event) {
-        res.status(404).send({ error: "Üritust ei leitud" });
+        res.status(404).send({ error: "Event not found" });
         return null;  // Return null if no event is found
     }
     return event;  // Return the event if found

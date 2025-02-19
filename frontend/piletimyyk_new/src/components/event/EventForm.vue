@@ -1,29 +1,52 @@
 <script>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 
 export default {
-  emits: ['event-added'],
+  props: {
+    isEditMode: {
+      type: Boolean,
+      default: false,
+    },
+    eventData: {
+      type: Object,
+      default: () => ({
+        title: '',
+        description: '',
+        date: '',
+        time: '',
+        location: '',
+        price: 0,
+      }),
+    },
+  },
+  emits: ['event-added', 'event-updated'],
   setup(props, { emit }) {
-    const event = ref({
-      title: '',
-      description: '',
-      date: '',
-      time: '',
-      location: '',
-      price: 0,
-    });
+    const event = ref({ ...props.eventData });
 
     const submitEvent = async () => {
-      await fetch('http://localhost:8080/events', {
-        method: 'POST',
+      const method = props.isEditMode ? 'PUT' : 'POST';
+      const url = props.isEditMode ? `http://localhost:8080/events/${event.value.event_id}` : 'http://localhost:8080/events';
+
+      await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(event.value),
       });
-      emit('event-added'); // Teata, et üritus on lisatud
+
+      if (props.isEditMode) {
+        emit('event-updated'); // Teata, et üritus on uuendatud
+      } else {
+        emit('event-added'); // Teata, et üritus on lisatud
+      }
+
       event.value = { title: '', description: '', date: '', time: '', location: '', price: 0 }; // Tühjenda vorm
     };
+
+    watch(() => props.eventData, (newVal) => {
+      event.value = { ...newVal }; // Uuenda vormi andmed, kui prop muutub
+    });
 
     return {
       event,
@@ -60,7 +83,7 @@ export default {
         <label for="price">Price:</label>
         <input id="price" v-model="event.price" type="number" placeholder="Price" required />
       </div>
-      <button @click="closeModal" type="submit">Add new event</button>
+      <button type="submit">{{ isEditMode ? 'Edit Event' : 'Add New Event' }}</button>
     </form>
   </div>
 </template>

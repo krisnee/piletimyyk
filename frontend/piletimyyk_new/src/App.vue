@@ -59,8 +59,8 @@ onUnmounted(() => {
 .header-hidden {
   transform: translateY(-100%);
 }
-*/
+
 .container {
-  padding-top: 0.1rem; /* Jätab ruumi päise all */
-}
+  padding-top: 0.1rem; 
+}*/
 </style>

@@ -40,6 +40,13 @@ const formattedEvents = computed(() => {
   }));
 });
 
+// Edit funktsioon
+const editEvent = (event) => {
+  selectedEvent.value = event; // Määra valitud sündmus
+  isEditMode.value = true; // Muuda režiim redigeerimiseks
+  openModal(); // Ava modaalaken
+};
+
 // Delete funktsioon
 const deleteEvent = async (event_id) => {
   console.log('Deleting event with ID:', event_id); // Debugging
